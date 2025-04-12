@@ -6,7 +6,7 @@
 /*   By: lbarreto <lbarreto@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 15:11:51 by lbarreto          #+#    #+#             */
-/*   Updated: 2025/04/12 17:47:56 by lbarreto         ###   ########.fr       */
+/*   Updated: 2025/04/12 20:31:49 by lbarreto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,6 @@ int		is_metacharacter(char c);
 void	set_token_type(t_token **token);
 t_token	*create_token(char *rline);
 void	add_next_token(t_token **token_head, t_token *new_token);
-t_token *tokenizer(char *rline);
+t_token	*tokenizer(char *rline);
 
 #endif
