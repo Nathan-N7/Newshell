@@ -5,7 +5,8 @@ CFLAGS =  -g -Wall -Werror -Wextra
 SRCS = src/main.c \
 src/parser.c \
 src/parser_utils.c \
-src/utils.c
+src/utils.c \
+src/token_utils.c
 
 NAME = minishell
 
@@ -20,7 +21,7 @@ $(NAME): $(OBJS)
 	$(CC) $(OBJS) -lreadline -o  $(NAME) $(LIB)
 
 .c.o:
-	$(CC) -c $< -o $@
+	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
 	make clean -C includes/libft
