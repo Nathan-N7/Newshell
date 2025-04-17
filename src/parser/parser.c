@@ -6,11 +6,11 @@
 /*   By: lbarreto <lbarreto@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 15:36:04 by lbarreto          #+#    #+#             */
-/*   Updated: 2025/04/14 16:03:23 by lbarreto         ###   ########.fr       */
+/*   Updated: 2025/04/16 17:12:55 by lbarreto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 t_token	*tokenizer(char *rline)
 {
@@ -30,3 +30,7 @@ t_token	*tokenizer(char *rline)
 	}
 	return (token_head);
 }
+// int	systax_analyzer(t_data *data)
+// {
+
+// }

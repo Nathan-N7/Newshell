@@ -3,10 +3,11 @@ CC = cc
 CFLAGS =  -g -Wall -Werror -Wextra 
 
 SRCS = src/main.c \
-src/parser.c \
-src/parser_utils.c \
-src/utils.c \
-src/token_utils.c
+src/parser/parser.c \
+src/parser/parser_utils.c \
+src/misc/utils.c \
+src/parser/token_utils.c \
+src/misc/env.c
 
 NAME = minishell
 

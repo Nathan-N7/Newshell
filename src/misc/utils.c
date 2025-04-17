@@ -6,11 +6,11 @@
 /*   By: lbarreto <lbarreto@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 17:23:44 by lbarreto          #+#    #+#             */
-/*   Updated: 2025/04/14 20:08:04 by lbarreto         ###   ########.fr       */
+/*   Updated: 2025/04/17 17:26:49 by lbarreto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 int	is_metacharacter(char c)
 {

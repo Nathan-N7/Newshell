@@ -6,11 +6,11 @@
 /*   By: lbarreto <lbarreto@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 16:13:06 by lbarreto          #+#    #+#             */
-/*   Updated: 2025/04/14 20:28:02 by lbarreto         ###   ########.fr       */
+/*   Updated: 2025/04/16 17:12:40 by lbarreto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 void	handle_quote(char *rline, t_token **token, char quote_type)
 {
