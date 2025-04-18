@@ -6,7 +6,7 @@
 /*   By: lbarreto <lbarreto@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 20:04:47 by lbarreto          #+#    #+#             */
-/*   Updated: 2025/04/17 18:01:34 by lbarreto         ###   ########.fr       */
+/*   Updated: 2025/04/18 05:12:21 by lbarreto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	add_next_env(t_env **env_head, t_env *new_env)
 void	destroy_env(t_env **env_head)
 {
 	t_env	*temp_next;
-	
+
 	while (*env_head)
 	{
 		temp_next = (*env_head)->next;

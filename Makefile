@@ -7,7 +7,8 @@ src/parser/parser.c \
 src/parser/parser_utils.c \
 src/misc/utils.c \
 src/parser/token_utils.c \
-src/misc/env.c
+src/misc/env.c \
+src/parser/syntax_utils.c
 
 NAME = minishell
 

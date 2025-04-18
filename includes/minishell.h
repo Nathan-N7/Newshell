@@ -6,7 +6,7 @@
 /*   By: lbarreto <lbarreto@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 15:11:51 by lbarreto          #+#    #+#             */
-/*   Updated: 2025/04/17 17:49:43 by lbarreto         ###   ########.fr       */
+/*   Updated: 2025/04/18 04:37:46 by lbarreto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,12 @@
 
 # define TRUE 1
 # define FALSE 0
+
+enum	e_errors {
+	UNCLOSED_QUOTES = -1,
+	UNEXPECTED_TOKEN = 2,
+
+};
 
 enum	e_tokens {
 	WORD,
@@ -51,6 +57,7 @@ typedef	struct s_env {
 typedef struct s_data {
 	t_token	*tokens;
 	t_env	*envp;
+	int		last_exit;
 }	t_data;
 
 void	handle_quote(char *rline, t_token **token, char quote_type);
@@ -61,11 +68,14 @@ void	set_token_type(t_token **token);
 t_token	*create_token(char *rline);
 void	add_next_token(t_token **token_head, t_token *new_token);
 t_token	*tokenizer(char *rline);
-void	handle_error(int error_value);
+void	handle_error(int error_value, t_token *token);
 void	destroy_tokens(t_token **token_head);
 t_env	*new_env_node(char *envp);
 t_env	*env_generator(char **envp);
 void	add_next_env(t_env **env_head, t_env *new_env);
 void	destroy_env(t_env **env_head);
+int		pipe_analysis(t_token *token);
+int		redirect_analysis(t_token *token);
+int		syntax_analyzer(t_data *data);
 
 #endif

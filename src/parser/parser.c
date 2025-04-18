@@ -6,7 +6,7 @@
 /*   By: lbarreto <lbarreto@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 15:36:04 by lbarreto          #+#    #+#             */
-/*   Updated: 2025/04/16 17:12:55 by lbarreto         ###   ########.fr       */
+/*   Updated: 2025/04/18 05:11:59 by lbarreto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,36 @@ t_token	*tokenizer(char *rline)
 			i++;
 		new_token = create_token(rline + i);
 		add_next_token(&token_head, new_token);
+		if (new_token->token_type == REDOUT && rline[i + 1] == '|')
+			i++;
 		i += ft_strlen(new_token->token_word);
 	}
 	return (token_head);
 }
-// int	systax_analyzer(t_data *data)
-// {
 
-// }
+int	syntax_analyzer(t_data *data)
+{
+	t_token	*temp_token;
+
+	temp_token = data->tokens;
+	if (data->tokens->token_type == PIPE)
+	{
+		my_printf_fd("minishell: syntax error near unexpected token \
+`newline'\n", 2);
+		return (UNEXPECTED_TOKEN);
+	}
+	while (temp_token)
+	{
+		if (temp_token->token_type == OPEN_QUOTE)
+		{
+			handle_error(UNCLOSED_QUOTES, temp_token);
+			return (UNCLOSED_QUOTES);
+		}
+		if (redirect_analysis(temp_token) != 0)
+			return (UNEXPECTED_TOKEN);
+		if (pipe_analysis(temp_token) != 0)
+			return (UNEXPECTED_TOKEN);
+		temp_token = temp_token->next;
+	}
+	return (0);
+}

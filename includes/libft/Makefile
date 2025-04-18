@@ -50,7 +50,8 @@ ft_putnbr.c \
 ft_putstr.c \
 ft_putnbr_base.c \
 ft_putpointer.c \
-ft_atol.c
+ft_atol.c \
+ft_printf_fd.c
 
 
 BONUS_SRCS = ft_lstnew_bonus.c	ft_lstadd_front_bonus.c	ft_lstsize_bonus.c \

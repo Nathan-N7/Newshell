@@ -6,7 +6,7 @@
 /*   By: lbarreto <lbarreto@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 19:50:49 by lbarreto          #+#    #+#             */
-/*   Updated: 2025/04/17 17:24:05 by lbarreto         ###   ########.fr       */
+/*   Updated: 2025/04/18 05:11:49 by lbarreto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ t_token	*create_token(char *rline)
 	identify_token(&new_token, rline);
 	new_token->next = NULL;
 	if (new_token->token_word == NULL)
-		handle_error(-1);
+		handle_error(-1, new_token);
 	return (new_token);
 }
 
@@ -48,10 +48,10 @@ void	destroy_tokens(t_token **token_head)
 	while ((*token_head) != NULL)
 	{
 		temp_next = (*token_head)->next;
-		if ((*token_head)->token_type == OPEN_QUOTE || 
-		(*token_head)->token_type == SINGLE_QUOTE ||
-		(*token_head)->token_type == DOUBLE_QUOTE ||
-		(*token_head)->token_type == WORD)
+		if ((*token_head)->token_type == OPEN_QUOTE \
+		|| (*token_head)->token_type == SINGLE_QUOTE \
+		|| (*token_head)->token_type == DOUBLE_QUOTE \
+		|| (*token_head)->token_type == WORD)
 			free((*token_head)->token_word);
 		free(*token_head);
 		(*token_head) = temp_next;
