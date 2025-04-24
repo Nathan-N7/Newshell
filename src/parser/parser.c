@@ -6,7 +6,7 @@
 /*   By: lbarreto <lbarreto@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 15:36:04 by lbarreto          #+#    #+#             */
-/*   Updated: 2025/04/18 05:11:59 by lbarreto         ###   ########.fr       */
+/*   Updated: 2025/04/24 12:50:49 by lbarreto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ t_token	*tokenizer(char *rline)
 	{
 		while (rline[i] == ' ' || rline[i] == '\t')
 			i++;
+		if (rline[i] == '\0')
+			break;
 		new_token = create_token(rline + i);
 		add_next_token(&token_head, new_token);
 		if (new_token->token_type == REDOUT && rline[i + 1] == '|')
@@ -58,4 +60,17 @@ int	syntax_analyzer(t_data *data)
 		temp_token = temp_token->next;
 	}
 	return (0);
+}
+
+void	variable_expansion(t_token **token_head, t_env *envp)
+{
+	t_token *temp_t;
+
+	temp_t = *token_head;
+	while (temp_t)
+	{
+		if (temp_t->token_type == WORD || temp_t == DOUBLE_QUOTE)
+			temp_t->token_word = expand_variable(temp_t->token_word, envp);
+		temp_t = temp_t->next;
+	}
 }
