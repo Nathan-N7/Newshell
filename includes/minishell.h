@@ -6,7 +6,7 @@
 /*   By: lbarreto <lbarreto@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 15:11:51 by lbarreto          #+#    #+#             */
-/*   Updated: 2025/04/18 04:37:46 by lbarreto         ###   ########.fr       */
+/*   Updated: 2025/04/25 19:47:49 by lbarreto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,5 +77,9 @@ void	destroy_env(t_env **env_head);
 int		pipe_analysis(t_token *token);
 int		redirect_analysis(t_token *token);
 int		syntax_analyzer(t_data *data);
+void	variable_expansion(t_token **token_head, t_env *envp);
+char	*replace_env(char *variable, t_env *envp);
+char	*replace_variable(char *token_word, int	variable_len, char *variable);
+char	*expand_variable(char *token_word, t_env *envp);
 
 #endif

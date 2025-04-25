@@ -6,7 +6,7 @@
 /*   By: lbarreto <lbarreto@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 15:08:56 by lbarreto          #+#    #+#             */
-/*   Updated: 2025/04/18 04:44:33 by lbarreto         ###   ########.fr       */
+/*   Updated: 2025/04/25 19:48:23 by lbarreto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ int	main(int argc, char **argv, char **envp)
 		add_history(rline);
 		data.tokens = tokenizer(rline);
 		data.last_exit = syntax_analyzer(&data);
+		variable_expansion(&data.tokens, my_env);
 		temp_token = data.tokens;
 		if (data.last_exit == 0)
 		{

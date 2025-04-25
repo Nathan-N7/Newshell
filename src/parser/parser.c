@@ -6,7 +6,7 @@
 /*   By: lbarreto <lbarreto@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 15:36:04 by lbarreto          #+#    #+#             */
-/*   Updated: 2025/04/24 12:50:49 by lbarreto         ###   ########.fr       */
+/*   Updated: 2025/04/25 19:46:31 by lbarreto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int	syntax_analyzer(t_data *data)
 	if (data->tokens->token_type == PIPE)
 	{
 		my_printf_fd("minishell: syntax error near unexpected token \
-`newline'\n", 2);
+`|'\n", 2);
 		return (UNEXPECTED_TOKEN);
 	}
 	while (temp_token)
@@ -69,7 +69,7 @@ void	variable_expansion(t_token **token_head, t_env *envp)
 	temp_t = *token_head;
 	while (temp_t)
 	{
-		if (temp_t->token_type == WORD || temp_t == DOUBLE_QUOTE)
+		if (temp_t->token_type == WORD || temp_t->token_type == DOUBLE_QUOTE)
 			temp_t->token_word = expand_variable(temp_t->token_word, envp);
 		temp_t = temp_t->next;
 	}
