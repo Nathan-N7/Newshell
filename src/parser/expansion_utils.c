@@ -6,7 +6,7 @@
 /*   By: lbarreto <lbarreto@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 12:51:32 by lbarreto          #+#    #+#             */
-/*   Updated: 2025/04/26 20:23:11 by lbarreto         ###   ########.fr       */
+/*   Updated: 2025/04/26 20:45:35 by lbarreto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,12 +45,12 @@ char	*replace_variable(char *token_word, int	variable_len, char *variable)
 		new_variable[i] = token_word[i];
 	while (variable[++j])
 		new_variable[i + j] = variable[j];
-	while (i + j < new_variable_size)
+	while (i + j + 1 < new_variable_size)
 	{
 		new_variable[i + j] = token_word[i + variable_len + 1];
 		i++;
 	}
-	new_variable[i + j] = '\0';
+	new_variable[i + j - 1] = '\0';
 	free(token_word);
 	return (new_variable);
 }
