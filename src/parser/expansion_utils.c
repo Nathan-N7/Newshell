@@ -6,7 +6,7 @@
 /*   By: lbarreto <lbarreto@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 12:51:32 by lbarreto          #+#    #+#             */
-/*   Updated: 2025/04/25 20:01:59 by lbarreto         ###   ########.fr       */
+/*   Updated: 2025/04/26 20:23:11 by lbarreto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,14 +41,13 @@ char	*replace_variable(char *token_word, int	variable_len, char *variable)
 	new_variable = (char *)malloc(new_variable_size);
 	if (!new_variable)
 		return (NULL);
-	while (token_word[i++] != '$')
+	while (token_word[++i] != '$')
 		new_variable[i] = token_word[i];
-	while (variable[j++])
+	while (variable[++j])
 		new_variable[i + j] = variable[j];
 	while (i + j < new_variable_size)
 	{
-		my_printf("Entra nesse while aq\n");
-		new_variable[i + j] = token_word[i + variable_len];
+		new_variable[i + j] = token_word[i + variable_len + 1];
 		i++;
 	}
 	new_variable[i + j] = '\0';
@@ -68,7 +67,7 @@ char	*expand_variable(char *token_word, t_env *envp)
 		if (token_word[i] == '$')
 		{
 			variable_len = 0;
-			while (ft_isalnum(token_word[i + 1]) == 1 \
+			while (ft_isalnum(token_word[i + 1 + variable_len]) == 1 \
 			&& token_word[i + variable_len])
 				variable_len++;
 			variable = ft_substr(token_word, i + 1, variable_len);
