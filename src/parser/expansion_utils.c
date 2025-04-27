@@ -6,7 +6,7 @@
 /*   By: lbarreto <lbarreto@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 12:51:32 by lbarreto          #+#    #+#             */
-/*   Updated: 2025/04/26 20:45:35 by lbarreto         ###   ########.fr       */
+/*   Updated: 2025/04/27 05:32:24 by lbarreto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,11 +68,16 @@ char	*expand_variable(char *token_word, t_env *envp)
 		{
 			variable_len = 0;
 			while (ft_isalnum(token_word[i + 1 + variable_len]) == 1 \
-			&& token_word[i + variable_len])
+			&& token_word[i + 1 + variable_len])
 				variable_len++;
 			variable = ft_substr(token_word, i + 1, variable_len);
 			variable = replace_env(variable, envp); 
 			token_word = replace_variable(token_word, variable_len, variable);
+			if (ft_strncmp(variable, "", 2) == 0 
+			&& token_word[i + ft_strlen(variable)] == '\0')
+				break;
+			else if (ft_strncmp(variable, "", 2) == 0)
+				i--;
 		}
 		i++;
 	}
