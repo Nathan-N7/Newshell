@@ -6,7 +6,7 @@
 /*   By: lbarreto <lbarreto@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 15:36:04 by lbarreto          #+#    #+#             */
-/*   Updated: 2025/04/25 19:46:31 by lbarreto         ###   ########.fr       */
+/*   Updated: 2025/04/27 07:11:40 by lbarreto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,16 +17,22 @@ t_token	*tokenizer(char *rline)
 	t_token	*token_head;
 	t_token	*new_token;
 	size_t	i;
+	int		there_has_space;
 
 	i = 0;
 	token_head = NULL;
 	while (rline[i] != 0)
 	{
+		there_has_space = FALSE;
 		while (rline[i] == ' ' || rline[i] == '\t')
+		{
+			there_has_space = TRUE;
 			i++;
+		}
 		if (rline[i] == '\0')
 			break;
 		new_token = create_token(rline + i);
+		new_token->space_flag = there_has_space;
 		add_next_token(&token_head, new_token);
 		if (new_token->token_type == REDOUT && rline[i + 1] == '|')
 			i++;

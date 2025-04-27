@@ -6,7 +6,7 @@
 /*   By: lbarreto <lbarreto@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 15:08:56 by lbarreto          #+#    #+#             */
-/*   Updated: 2025/04/25 19:48:23 by lbarreto         ###   ########.fr       */
+/*   Updated: 2025/04/27 07:11:33 by lbarreto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	main(int argc, char **argv, char **envp)
 		{
 			while (data.tokens)
 			{
-				my_printf("Token word: %s Token type: %d\n", data.tokens->token_word, data.tokens->token_type);
+				my_printf("Token word: %s Token type: %d Add Flag: %d\n", data.tokens->token_word, data.tokens->token_type, data.tokens->add_flag);
 				data.tokens = data.tokens->next;
 			}
 		}

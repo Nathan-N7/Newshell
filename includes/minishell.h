@@ -6,7 +6,7 @@
 /*   By: lbarreto <lbarreto@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 15:11:51 by lbarreto          #+#    #+#             */
-/*   Updated: 2025/04/25 19:47:49 by lbarreto         ###   ########.fr       */
+/*   Updated: 2025/04/27 06:56:53 by lbarreto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ enum	e_tokens {
 typedef	struct s_token {
 	char			*token_word;
 	int				token_type;
+	int				add_flag;
 	struct s_token	*next;
 }	t_token;
 
@@ -81,5 +82,6 @@ void	variable_expansion(t_token **token_head, t_env *envp);
 char	*replace_env(char *variable, t_env *envp);
 char	*replace_variable(char *token_word, int	variable_len, char *variable);
 char	*expand_variable(char *token_word, t_env *envp);
+void	set_add_flag(t_token **token_head);
 
 #endif

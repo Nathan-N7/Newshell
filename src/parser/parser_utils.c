@@ -6,7 +6,7 @@
 /*   By: lbarreto <lbarreto@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 16:13:06 by lbarreto          #+#    #+#             */
-/*   Updated: 2025/04/16 17:12:40 by lbarreto         ###   ########.fr       */
+/*   Updated: 2025/04/27 06:58:51 by lbarreto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,4 +83,26 @@ void	set_token_type(t_token **token)
 		(*token)->token_type = REDIN;
 	else
 		(*token)->token_type = WORD;
+}
+
+void	set_add_flag(t_token **token_head)
+{
+	t_token	*temp_t;
+
+	temp_t = (*token_head);
+	while (temp_t->next != NULL)
+	{
+
+		if ((temp_t->token_type == WORD \
+		|| temp_t->token_type == SINGLE_QUOTE \
+		|| temp_t->token_type == DOUBLE_QUOTE)
+		&& (temp_t->next->token_type == WORD 
+		|| temp_t->next->token_type == SINGLE_QUOTE
+		|| temp_t->next->token_type == DOUBLE_QUOTE))
+			temp_t->add_flag = TRUE;
+		else
+			temp_t->add_flag = FALSE;
+		temp_t = temp_t->next;
+	}
+	temp_t->add_flag = FALSE;
 }
