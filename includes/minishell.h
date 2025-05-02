@@ -44,7 +44,7 @@ enum	e_tokens {
 typedef	struct s_token {
 	char			*token_word;
 	int				token_type;
-	int				add_flag;
+	int				space_flag;
 	struct s_token	*next;
 }	t_token;
 

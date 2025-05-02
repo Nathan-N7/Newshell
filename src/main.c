@@ -37,7 +37,7 @@ int	main(int argc, char **argv, char **envp)
 		{
 			while (data.tokens)
 			{
-				my_printf("Token word: %s Token type: %d Add Flag: %d\n", data.tokens->token_word, data.tokens->token_type, data.tokens->add_flag);
+				my_printf("Token word: %s Token type: %d Add Flag: %d\n", data.tokens->token_word, data.tokens->token_type, data.tokens->space_flag);
 				data.tokens = data.tokens->next;
 			}
 		}

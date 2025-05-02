@@ -99,10 +99,10 @@ void	set_add_flag(t_token **token_head)
 		&& (temp_t->next->token_type == WORD 
 		|| temp_t->next->token_type == SINGLE_QUOTE
 		|| temp_t->next->token_type == DOUBLE_QUOTE))
-			temp_t->add_flag = TRUE;
+			temp_t->space_flag = TRUE;
 		else
-			temp_t->add_flag = FALSE;
+			temp_t->space_flag = FALSE;
 		temp_t = temp_t->next;
 	}
-	temp_t->add_flag = FALSE;
+	temp_t->space_flag = FALSE;
 }
