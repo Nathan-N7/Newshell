@@ -82,6 +82,8 @@ void	variable_expansion(t_token **token_head, t_env *envp);
 char	*replace_env(char *variable, t_env *envp);
 char	*replace_variable(char *token_word, int	variable_len, char *variable);
 char	*expand_variable(char *token_word, t_env *envp);
-void	set_add_flag(t_token **token_head);
+void	join_words(t_token **token_head);
+void	trim_quotes(t_token **token_head);
+void	join_tokens(t_token **token);
 
 #endif

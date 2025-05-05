@@ -32,6 +32,7 @@ int	main(int argc, char **argv, char **envp)
 		data.tokens = tokenizer(rline);
 		data.last_exit = syntax_analyzer(&data);
 		variable_expansion(&data.tokens, my_env);
+		join_words(&data.tokens);
 		temp_token = data.tokens;
 		if (data.last_exit == 0)
 		{

@@ -88,8 +88,8 @@ void	join_words(t_token **token_head)
 	t_token	*temp_t;
 
 	trim_quotes(token_head);
-	temp_t = (*token_head);
-	while (temp_t)
+	temp_t = *token_head;
+	while (temp_t->next)
 	{
 		if (temp_t->next->space_flag == 0 && (temp_t->token_type == WORD \
 		|| temp_t->token_type == SINGLE_QUOTE \
@@ -98,6 +98,27 @@ void	join_words(t_token **token_head)
 		|| temp_t->next->token_type == SINGLE_QUOTE \
 		|| temp_t->next->token_type == DOUBLE_QUOTE))
 			join_tokens(&temp_t);
+		else if (temp_t->next != NULL)
+			temp_t = temp_t->next;
+	}
+	temp_t = *token_head;
+	while (temp_t)
+	{
+		if (temp_t->token_type == SINGLE_QUOTE \
+		|| temp_t->token_type == DOUBLE_QUOTE)
+			temp_t->token_type = WORD;
 		temp_t = temp_t->next;
 	}
+}
+
+void	join_tokens(t_token **token)
+{
+	t_token	*temp_next;
+
+	temp_next = (*token)->next->next;
+	(*token)->token_word = ft_strjoin((*token)->token_word, \
+	(*token)->next->token_word);
+	free((*token)->next);
+	(*token)->next = temp_next;
+	
 }
