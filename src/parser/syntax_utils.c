@@ -37,7 +37,7 @@ int	redirect_analysis(t_token *token)
 	{
 		handle_error(UNEXPECTED_TOKEN, token);
 		return (UNEXPECTED_TOKEN);
-	}	
+	}
 	if ((token->token_type == REDIN || token->token_type == REDOUT \
 	|| token->token_type == APPEND || token->token_type == HEREDOC) \
 	&& (token->next->token_type != WORD \

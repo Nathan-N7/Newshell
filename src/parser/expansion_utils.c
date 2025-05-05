@@ -27,7 +27,7 @@ char	*replace_env(char *variable, t_env *envp)
 	return (ft_strdup(""));
 }
 
-char	*replace_variable(char *token_word, int	variable_len, char *variable)
+char	*replace_variable(char *token_word, int variable_len, char *variable)
 {
 	int		i;
 	int		j;
@@ -71,11 +71,11 @@ char	*expand_variable(char *token_word, t_env *envp)
 			&& token_word[i + 1 + variable_len])
 				variable_len++;
 			variable = ft_substr(token_word, i + 1, variable_len);
-			variable = replace_env(variable, envp); 
+			variable = replace_env(variable, envp);
 			token_word = replace_variable(token_word, variable_len, variable);
-			if (ft_strncmp(variable, "", 2) == 0 
+			if (ft_strncmp(variable, "", 2) == 0 \
 			&& token_word[i + ft_strlen(variable)] == '\0')
-				break;
+				break ;
 			else if (ft_strncmp(variable, "", 2) == 0)
 				i--;
 		}
@@ -83,6 +83,7 @@ char	*expand_variable(char *token_word, t_env *envp)
 	}
 	return (token_word);
 }
+
 void	join_words(t_token **token_head)
 {
 	t_token	*temp_t;
@@ -120,5 +121,4 @@ void	join_tokens(t_token **token)
 	(*token)->next->token_word);
 	free((*token)->next);
 	(*token)->next = temp_next;
-	
 }

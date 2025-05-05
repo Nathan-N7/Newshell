@@ -30,7 +30,7 @@ t_token	*tokenizer(char *rline)
 			i++;
 		}
 		if (rline[i] == '\0')
-			break;
+			break ;
 		new_token = create_token(rline + i);
 		new_token->space_flag = there_has_space;
 		add_next_token(&token_head, new_token);
@@ -70,7 +70,7 @@ int	syntax_analyzer(t_data *data)
 
 void	variable_expansion(t_token **token_head, t_env *envp)
 {
-	t_token *temp_t;
+	t_token	*temp_t;
 
 	temp_t = *token_head;
 	while (temp_t)
