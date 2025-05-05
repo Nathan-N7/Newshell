@@ -85,24 +85,26 @@ void	set_token_type(t_token **token)
 		(*token)->token_type = WORD;
 }
 
-void	set_add_flag(t_token **token_head)
+void	trim_quotes(t_token **token_head)
 {
-	t_token	*temp_t;
+	t_token	*temp_head;
+	char	*temp_word;
 
-	temp_t = (*token_head);
-	while (temp_t->next != NULL)
+	temp_head = *token_head;
+	while (temp_head)
 	{
-
-		if ((temp_t->token_type == WORD \
-		|| temp_t->token_type == SINGLE_QUOTE \
-		|| temp_t->token_type == DOUBLE_QUOTE)
-		&& (temp_t->next->token_type == WORD 
-		|| temp_t->next->token_type == SINGLE_QUOTE
-		|| temp_t->next->token_type == DOUBLE_QUOTE))
-			temp_t->space_flag = TRUE;
-		else
-			temp_t->space_flag = FALSE;
-		temp_t = temp_t->next;
+		if (temp_head->token_type == DOUBLE_QUOTE)
+		{
+			temp_word = temp_head->token_word;
+			temp_head->token_word = ft_strtrim(temp_word, "\"");
+			free(temp_word);
+		}
+		else if (temp_head->token_type == SINGLE_QUOTE)
+		{
+			temp_word = temp_head->token_word;
+			temp_head->token_word = ft_strtrim(temp_word, "\'");
+			free(temp_word);
+		}
+		temp_head = temp_head->next;
 	}
-	temp_t->space_flag = FALSE;
 }

@@ -83,3 +83,21 @@ char	*expand_variable(char *token_word, t_env *envp)
 	}
 	return (token_word);
 }
+void	join_words(t_token **token_head)
+{
+	t_token	*temp_t;
+
+	trim_quotes(token_head);
+	temp_t = (*token_head);
+	while (temp_t)
+	{
+		if (temp_t->next->space_flag == 0 && (temp_t->token_type == WORD \
+		|| temp_t->token_type == SINGLE_QUOTE \
+		|| temp_t->token_type == DOUBLE_QUOTE) \
+		&& (temp_t->next->token_type == WORD \
+		|| temp_t->next->token_type == SINGLE_QUOTE \
+		|| temp_t->next->token_type == DOUBLE_QUOTE))
+			join_tokens(&temp_t);
+		temp_t = temp_t->next;
+	}
+}
