@@ -6,7 +6,7 @@
 /*   By: lbarreto <lbarreto@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 15:08:56 by lbarreto          #+#    #+#             */
-/*   Updated: 2025/04/27 07:11:33 by lbarreto         ###   ########.fr       */
+/*   Updated: 2025/05/06 17:02:23 by lbarreto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,14 +31,18 @@ int	main(int argc, char **argv, char **envp)
 		add_history(rline);
 		data.tokens = tokenizer(rline);
 		data.last_exit = syntax_analyzer(&data);
+		data.fd = NULL;
 		variable_expansion(&data.tokens, my_env);
 		join_words(&data.tokens);
+		handle_redirects(&data);
 		temp_token = data.tokens;
 		if (data.last_exit == 0)
 		{
 			while (data.tokens)
 			{
 				my_printf("Token word: %s Token type: %d Add Flag: %d\n", data.tokens->token_word, data.tokens->token_type, data.tokens->space_flag);
+				if (data.fd != NULL)
+					my_printf("Open FD: %d\n", data.fd->fd);
 				data.tokens = data.tokens->next;
 			}
 		}

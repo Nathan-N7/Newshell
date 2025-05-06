@@ -9,7 +9,11 @@ src/misc/utils.c \
 src/parser/token_utils.c \
 src/misc/env.c \
 src/parser/syntax_utils.c \
-src/parser/expansion_utils.c
+src/parser/expansion_utils.c \
+src/redirect/fd_utils.c \
+src/redirect/pathname_utils.c \
+src/redirect/redirect_out.c \
+src/redirect/redirect.c 
 
 NAME = minishell
 
