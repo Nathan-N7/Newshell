@@ -6,7 +6,7 @@
 /*   By: lbarreto <lbarreto@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 15:11:51 by lbarreto          #+#    #+#             */
-/*   Updated: 2025/04/27 06:56:53 by lbarreto         ###   ########.fr       */
+/*   Updated: 2025/05/05 20:43:02 by lbarreto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,5 +85,6 @@ char	*expand_variable(char *token_word, t_env *envp);
 void	join_words(t_token **token_head);
 void	trim_quotes(t_token **token_head);
 void	join_tokens(t_token **token);
+char	*create_pathname(char *filename, t_data *data);
 
 #endif
