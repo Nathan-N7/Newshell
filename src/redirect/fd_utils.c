@@ -6,7 +6,7 @@
 /*   By: lbarreto <lbarreto@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 16:20:02 by lbarreto          #+#    #+#             */
-/*   Updated: 2025/05/06 22:10:51 by lbarreto         ###   ########.fr       */
+/*   Updated: 2025/05/07 19:18:07 by lbarreto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ void	add_fd_back(t_fd_list **fd_list, t_fd_list *new_fd)
 		*fd_list = new_fd;
 	else
 	{
-		my_printf("Entra no add_fd_back\n");
 		temp_fd = *fd_list;
 		while (temp_fd->next != NULL)
 			temp_fd = temp_fd->next;

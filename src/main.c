@@ -6,7 +6,7 @@
 /*   By: lbarreto <lbarreto@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 15:08:56 by lbarreto          #+#    #+#             */
-/*   Updated: 2025/05/06 22:52:51 by lbarreto         ###   ########.fr       */
+/*   Updated: 2025/05/07 19:06:59 by lbarreto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ int	main(int argc, char **argv, char **envp)
 		data.last_exit = syntax_analyzer(&data);
 		data.fd = NULL;
 		data.stdout_fd = dup(1);
+		my_printf("Stdout antes do while: %d\n", data.stdout_fd);
 		variable_expansion(&data.tokens, data.envp);
 		join_words(&data.tokens);
 		handle_redirects(&data);
@@ -46,9 +47,10 @@ int	main(int argc, char **argv, char **envp)
 				data.tokens = data.tokens->next;
 			}
 		}
-		close(data.fd->fd);
+		my_printf("Stdout pós while: %d\n", data.stdout_fd);
 		dup2(data.stdout_fd, 1);
-		close(data.stdout_fd);
+		close(data.fd->fd);
+		free(data.fd);
 		free(rline);
 		destroy_tokens(&temp_token);
 	} 

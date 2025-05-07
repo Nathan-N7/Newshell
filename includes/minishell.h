@@ -6,7 +6,7 @@
 /*   By: lbarreto <lbarreto@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 15:11:51 by lbarreto          #+#    #+#             */
-/*   Updated: 2025/05/06 22:47:02 by lbarreto         ###   ########.fr       */
+/*   Updated: 2025/05/07 18:55:13 by lbarreto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,5 +105,6 @@ void		add_fd_back(t_fd_list **fd_list, t_fd_list *new_fd);
 void		handle_redirects(t_data *data);
 void		handle_redout(t_token **token, t_data *data);
 void		file_exists_redout(t_data *data, char *pathname);
+void		new_file_redout(t_data *data, char *pathname);
 
 #endif
