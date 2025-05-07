@@ -6,7 +6,7 @@
 /*   By: lbarreto <lbarreto@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 12:51:32 by lbarreto          #+#    #+#             */
-/*   Updated: 2025/04/27 07:11:37 by lbarreto         ###   ########.fr       */
+/*   Updated: 2025/05/06 22:57:55 by lbarreto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ char	*replace_env(char *variable, t_env *envp)
 		if (ft_strncmp(variable, envp->env_name, ft_strlen(variable) + 1) == 0)
 		{
 			free(variable);
-			return (envp->env_value);
+			return (ft_strdup(envp->env_value));
 		}
 		envp = envp->next;
 	}

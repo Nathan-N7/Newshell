@@ -6,7 +6,7 @@
 /*   By: lbarreto <lbarreto@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 15:11:51 by lbarreto          #+#    #+#             */
-/*   Updated: 2025/05/06 16:52:46 by lbarreto         ###   ########.fr       */
+/*   Updated: 2025/05/06 22:47:02 by lbarreto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ typedef struct s_data {
 	t_token		*tokens;
 	t_env		*envp;
 	t_fd_list	*fd;
+	int			stdout_fd;
 	int		last_exit;
 }	t_data;
 
