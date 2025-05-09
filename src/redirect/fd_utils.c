@@ -6,7 +6,7 @@
 /*   By: lbarreto <lbarreto@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 16:20:02 by lbarreto          #+#    #+#             */
-/*   Updated: 2025/05/07 19:18:07 by lbarreto         ###   ########.fr       */
+/*   Updated: 2025/05/09 18:06:10 by lbarreto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,5 +36,18 @@ void	add_fd_back(t_fd_list **fd_list, t_fd_list *new_fd)
 		while (temp_fd->next != NULL)
 			temp_fd = temp_fd->next;
 		temp_fd->next = new_fd;
+	}
+}
+
+void	clear_fd_list(t_fd_list **fd_list)
+{
+	t_fd_list	*temp_next;
+
+	while (*fd_list)
+	{
+		temp_next = (*fd_list)->next;
+		close((*fd_list)->fd);
+		free(*fd_list);
+		*fd_list = temp_next;
 	}
 }

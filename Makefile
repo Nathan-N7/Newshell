@@ -13,7 +13,8 @@ src/parser/expansion_utils.c \
 src/redirect/fd_utils.c \
 src/redirect/pathname_utils.c \
 src/redirect/redirect_out.c \
-src/redirect/redirect.c 
+src/redirect/redirect.c \
+src/redirect/append.c
 
 NAME = minishell
 

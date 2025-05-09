@@ -1,35 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   redirect_out.c                                     :+:      :+:    :+:   */
+/*   append.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lbarreto <lbarreto@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/05 20:25:19 by lbarreto          #+#    #+#             */
-/*   Updated: 2025/05/09 18:13:24 by lbarreto         ###   ########.fr       */
+/*   Created: 2025/05/09 18:24:45 by lbarreto          #+#    #+#             */
+/*   Updated: 2025/05/09 18:32:19 by lbarreto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	handle_redout(t_token **token, t_data *data)
+void	handle_append(t_token **token, t_data *data)
 {
 	char	*pathname;
 
 	pathname = create_pathname((*token)->next->token_word, data);
 	if (access(pathname, F_OK) == 0)
-		file_exists_redout(data, pathname);
+		file_exists_append(data, pathname);
 	else
-		new_file_redout(data, pathname);
+		new_file_append(data, pathname);
 }
 
-void	file_exists_redout(t_data *data, char *pathname)
+void	file_exists_append(t_data *data, char *pathname)
 {
 	int	fd;
 
 	if (access(pathname, W_OK) == 0)
 	{
-		fd = open(pathname, O_WRONLY | O_TRUNC);
+		fd = open(pathname, O_WRONLY | O_APPEND);
 		dup2(fd, 1);
 		add_fd_back(&data->fd, new_fd_node(fd));
 	}
@@ -37,7 +37,7 @@ void	file_exists_redout(t_data *data, char *pathname)
 		my_printf_fd("Permission Denied: %s\n", 2, pathname);
 }
 
-void	new_file_redout(t_data *data, char *pathname)
+void	new_file_append(t_data *data, char *pathname)
 {
 	int	fd;
 
