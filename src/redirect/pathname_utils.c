@@ -6,7 +6,7 @@
 /*   By: lbarreto <lbarreto@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 15:45:13 by lbarreto          #+#    #+#             */
-/*   Updated: 2025/05/06 22:56:42 by lbarreto         ###   ########.fr       */
+/*   Updated: 2025/05/12 14:44:36 by lbarreto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,4 +52,12 @@ char	*relative_pathname(char *filename, t_data *data)
 	pathname = ft_strjoin(pwd, separator);
 	pathname = ft_strjoin(pathname, new_filename);
 	return (pathname);
+}
+
+int	isdirectory(char *pathname)
+{
+	struct stat	path_stat;
+
+	stat(pathname, &path_stat);
+	return (S_ISDIR(path_stat.st_mode));
 }

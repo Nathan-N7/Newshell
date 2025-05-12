@@ -6,7 +6,7 @@
 /*   By: lbarreto <lbarreto@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 15:11:51 by lbarreto          #+#    #+#             */
-/*   Updated: 2025/05/09 18:32:59 by lbarreto         ###   ########.fr       */
+/*   Updated: 2025/05/12 14:56:25 by lbarreto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <fcntl.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# include <sys/stat.h>
 # include "libft/libft.h"
 # include <signal.h>
 # include <errno.h>
@@ -110,4 +111,6 @@ void		clear_fd_list(t_fd_list **fd_list);
 void		handle_append(t_token **token, t_data *data);
 void		file_exists_append(t_data *data, char *pathname);
 void		new_file_append(t_data *data, char *pathname);
+int			isdirectory(char *pathname);
+
 #endif
