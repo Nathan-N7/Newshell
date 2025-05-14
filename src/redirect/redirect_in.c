@@ -1,29 +1,14 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   redirect.c                                         :+:      :+:    :+:   */
+/*   redirect_in.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lbarreto <lbarreto@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/05 19:55:52 by lbarreto          #+#    #+#             */
-/*   Updated: 2025/05/14 13:40:52 by lbarreto         ###   ########.fr       */
+/*   Created: 2025/05/14 12:33:34 by lbarreto          #+#    #+#             */
+/*   Updated: 2025/05/14 13:30:50 by lbarreto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	handle_redirects(t_data *data)
-{
-	t_token	*temp_t;
-
-	temp_t = data->tokens;
-	while (temp_t->next)
-	{
-		if (temp_t->next->token_type == REDOUT)
-			handle_redout(&temp_t, data);
-		else if (temp_t->next->token_type == APPEND)
-			handle_append(&temp_t, data);
-		else
-			temp_t = temp_t->next;
-	}
-}

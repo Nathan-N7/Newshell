@@ -6,7 +6,7 @@
 /*   By: lbarreto <lbarreto@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 15:11:51 by lbarreto          #+#    #+#             */
-/*   Updated: 2025/05/12 14:56:25 by lbarreto         ###   ########.fr       */
+/*   Updated: 2025/05/14 13:38:52 by lbarreto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,9 +68,10 @@ typedef struct s_fd_list
 typedef struct s_data {
 	t_token		*tokens;
 	t_env		*envp;
-	t_fd_list	*fd;
 	int			stdout_fd;
-	int		last_exit;
+	int			last_exit;
+	int			last_fd_out;
+	int			last_fd_in;
 }	t_data;
 
 void		handle_quote(char *rline, t_token **token, char quote_type);
