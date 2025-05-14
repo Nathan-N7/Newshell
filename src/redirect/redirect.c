@@ -6,7 +6,7 @@
 /*   By: lbarreto <lbarreto@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 19:55:52 by lbarreto          #+#    #+#             */
-/*   Updated: 2025/05/14 13:40:52 by lbarreto         ###   ########.fr       */
+/*   Updated: 2025/05/14 14:04:51 by lbarreto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ void	handle_redirects(t_data *data)
 			handle_redout(&temp_t, data);
 		else if (temp_t->next->token_type == APPEND)
 			handle_append(&temp_t, data);
+		else if (temp_t->next->token_type == REDIN)
+			handle_redin(&temp_t, data);
 		else
 			temp_t = temp_t->next;
 	}
