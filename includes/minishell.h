@@ -6,7 +6,7 @@
 /*   By: lbarreto <lbarreto@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 15:11:51 by lbarreto          #+#    #+#             */
-/*   Updated: 2025/05/14 13:38:52 by lbarreto         ###   ########.fr       */
+/*   Updated: 2025/05/15 14:06:07 by lbarreto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,9 +69,11 @@ typedef struct s_data {
 	t_token		*tokens;
 	t_env		*envp;
 	int			stdout_fd;
+	int			stdin_fd;
 	int			last_exit;
 	int			last_fd_out;
 	int			last_fd_in;
+	int			redirect_error; //bool 
 }	t_data;
 
 void		handle_quote(char *rline, t_token **token, char quote_type);
@@ -113,5 +115,8 @@ void		handle_append(t_token **token, t_data *data);
 void		file_exists_append(t_data *data, char *pathname);
 void		new_file_append(t_data *data, char *pathname);
 int			isdirectory(char *pathname);
+void		handle_redin(t_token **token, t_data *data);
+void		execute_redin(char *pathname, t_data *data);
+void		handle_heredoc(t_token **token, t_data *data);
 
 #endif

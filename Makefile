@@ -14,7 +14,9 @@ src/redirect/fd_utils.c \
 src/redirect/pathname_utils.c \
 src/redirect/redirect_out.c \
 src/redirect/redirect.c \
-src/redirect/append.c
+src/redirect/append.c \
+src/redirect/redirect_in.c \
+src/redirect/heredoc.c
 
 NAME = minishell
 

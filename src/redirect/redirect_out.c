@@ -6,7 +6,7 @@
 /*   By: lbarreto <lbarreto@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 20:25:19 by lbarreto          #+#    #+#             */
-/*   Updated: 2025/05/14 13:48:45 by lbarreto         ###   ########.fr       */
+/*   Updated: 2025/05/14 14:58:58 by lbarreto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ void	file_exists_redout(t_data *data, char *pathname)
 	{
 		my_printf_fd("minishell: %s: Is a directory\n", 2, pathname);
 		data->last_exit = 1;
+		data->redirect_error = TRUE;
 		return ;
 	}
 	if (access(pathname, W_OK) == 0)
@@ -53,6 +54,7 @@ void	file_exists_redout(t_data *data, char *pathname)
 	{
 		my_printf_fd("minishell: %s: Permission denied\n", 2, pathname);
 		data->last_exit = 1;
+		data->redirect_error = TRUE;
 	}
 }
 

@@ -6,7 +6,7 @@
 /*   By: lbarreto <lbarreto@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 15:08:56 by lbarreto          #+#    #+#             */
-/*   Updated: 2025/05/14 13:44:53 by lbarreto         ###   ########.fr       */
+/*   Updated: 2025/05/14 15:13:04 by lbarreto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ int	main(int argc, char **argv, char **envp)
 		return (0);
 	data.envp = env_generator(envp);
 	data.stdout_fd = dup(1);
+	data.stdin_fd = dup(0);
 	data.last_fd_in = -2;
 	data.last_fd_out = -2;
 	while (1)
@@ -44,6 +45,7 @@ int	main(int argc, char **argv, char **envp)
 			my_printf("Token: %p\n", data.tokens);
 		}
 		dup2(data.stdout_fd, 1);
+		dup2(data.stdin_fd, 0);
 		free(rline);
 		destroy_tokens(&temp_token);
 	}
