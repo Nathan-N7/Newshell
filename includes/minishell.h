@@ -6,7 +6,7 @@
 /*   By: lbarreto <lbarreto@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 15:11:51 by lbarreto          #+#    #+#             */
-/*   Updated: 2025/05/15 14:06:07 by lbarreto         ###   ########.fr       */
+/*   Updated: 2025/05/18 17:09:48 by lbarreto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # include "libft/libft.h"
 # include <signal.h>
 # include <errno.h>
+# include <limits.h>
 
 
 # define TRUE 1
@@ -118,5 +119,6 @@ int			isdirectory(char *pathname);
 void		handle_redin(t_token **token, t_data *data);
 void		execute_redin(char *pathname, t_data *data);
 void		handle_heredoc(t_token **token, t_data *data);
+void		free_split(char **split_str);
 
 #endif

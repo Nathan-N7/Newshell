@@ -6,7 +6,7 @@
 /*   By: lbarreto <lbarreto@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 17:23:44 by lbarreto          #+#    #+#             */
-/*   Updated: 2025/04/18 04:48:54 by lbarreto         ###   ########.fr       */
+/*   Updated: 2025/05/18 17:12:43 by lbarreto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,21 @@ int	is_metacharacter(char c)
 	|| c == '\'' || c == '\"')
 		return (1);
 	return (0);
+}
+
+void	free_split(char **split_str)
+{
+	int	i;
+	while (split_str[i])
+	{
+		if (split_str[i] != NULL)
+		{
+			split_str[i] == NULL;
+			free(split_str[i]);
+		}
+		i++;
+	}
+	free(split_str);
 }
 
 void	handle_error(int error_value, t_token *token)
