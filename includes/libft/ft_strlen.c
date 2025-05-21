@@ -6,7 +6,7 @@
 /*   By: lbarreto <lbarreto@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/05 20:47:18 by lbarreto          #+#    #+#             */
-/*   Updated: 2024/12/12 00:42:07 by lbarreto         ###   ########.fr       */
+/*   Updated: 2025/05/21 18:52:17 by lbarreto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ size_t	ft_strlen(const char *s)
 
 	i = 0;
 	if (!s)
-		return (0);
+		return (-1);
 	while (s[i])
 		i++;
 	return (i);
