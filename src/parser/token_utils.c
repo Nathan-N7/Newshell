@@ -6,7 +6,7 @@
 /*   By: lbarreto <lbarreto@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 19:50:49 by lbarreto          #+#    #+#             */
-/*   Updated: 2025/04/18 05:11:49 by lbarreto         ###   ########.fr       */
+/*   Updated: 2025/05/20 20:51:30 by lbarreto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,4 +56,25 @@ void	destroy_tokens(t_token **token_head)
 		free(*token_head);
 		(*token_head) = temp_next;
 	}
+}
+
+void	clear_redirect_tokens(t_token **token_head)
+{
+	(*token_head)->next->next->token_word = NULL;
+	free((*token_head)->next->next->token_word);
+	(*token_head)->next->next = NULL;
+	free((*token_head)->next->next);
+	(*token_head)->next = NULL;
+	free((*token_head)->next);
+}
+
+void	join_tokens(t_token **token)
+{
+	t_token	*temp_next;
+
+	temp_next = (*token)->next->next;
+	(*token)->token_word = ft_strjoin((*token)->token_word, \
+	(*token)->next->token_word);
+	free((*token)->next);
+	(*token)->next = temp_next;
 }

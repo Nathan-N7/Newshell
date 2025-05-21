@@ -6,7 +6,7 @@
 /*   By: lbarreto <lbarreto@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 15:11:51 by lbarreto          #+#    #+#             */
-/*   Updated: 2025/05/18 17:09:48 by lbarreto         ###   ########.fr       */
+/*   Updated: 2025/05/20 21:01:29 by lbarreto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,5 +120,6 @@ void		handle_redin(t_token **token, t_data *data);
 void		execute_redin(char *pathname, t_data *data);
 void		handle_heredoc(t_token **token, t_data *data);
 void		free_split(char **split_str);
+void		clear_redirect_tokens(t_token **token_head);
 
 #endif

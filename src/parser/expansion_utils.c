@@ -6,7 +6,7 @@
 /*   By: lbarreto <lbarreto@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 12:51:32 by lbarreto          #+#    #+#             */
-/*   Updated: 2025/05/06 22:57:55 by lbarreto         ###   ########.fr       */
+/*   Updated: 2025/05/20 22:12:10 by lbarreto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ char	*expand_variable(char *token_word, t_env *envp)
 	i = 0;
 	while (token_word[i])
 	{
-		if (token_word[i] == '$')
+		if (token_word[i] == '$' && ft_isalnum(token_word[i + 1]) == 1)
 		{
 			variable_len = 0;
 			while (ft_isalnum(token_word[i + 1 + variable_len]) == 1 \
@@ -73,13 +73,16 @@ char	*expand_variable(char *token_word, t_env *envp)
 			variable = ft_substr(token_word, i + 1, variable_len);
 			variable = replace_env(variable, envp);
 			token_word = replace_variable(token_word, variable_len, variable);
-			if (ft_strncmp(variable, "", 2) == 0 \
-			&& token_word[i + ft_strlen(variable)] == '\0')
-				break ;
-			else if (ft_strncmp(variable, "", 2) == 0)
-				i--;
+			// if (ft_strncmp(variable, "", 2) == 0 \
+			// && token_word[i + ft_strlen(variable)] == '\0')
+			// 	break ;
+			// else if (ft_strncmp(variable, "", 2) == 0)
+			// 	i--;
 		}
-		i++;
+		if (token_word[i] != '\0' || token_word[i] != '\"')
+			i++;
+		else if (ft_strlen(variable) == 0)
+			i--;
 	}
 	return (token_word);
 }
@@ -112,13 +115,4 @@ void	join_words(t_token **token_head)
 	}
 }
 
-void	join_tokens(t_token **token)
-{
-	t_token	*temp_next;
 
-	temp_next = (*token)->next->next;
-	(*token)->token_word = ft_strjoin((*token)->token_word, \
-	(*token)->next->token_word);
-	free((*token)->next);
-	(*token)->next = temp_next;
-}

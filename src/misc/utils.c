@@ -6,7 +6,7 @@
 /*   By: lbarreto <lbarreto@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 17:23:44 by lbarreto          #+#    #+#             */
-/*   Updated: 2025/05/18 17:12:43 by lbarreto         ###   ########.fr       */
+/*   Updated: 2025/05/20 20:51:05 by lbarreto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,13 @@ int	is_metacharacter(char c)
 void	free_split(char **split_str)
 {
 	int	i;
+
+	i = 0;
 	while (split_str[i])
 	{
 		if (split_str[i] != NULL)
 		{
-			split_str[i] == NULL;
+			split_str[i] = NULL;
 			free(split_str[i]);
 		}
 		i++;
