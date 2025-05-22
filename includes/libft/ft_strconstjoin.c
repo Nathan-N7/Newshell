@@ -6,7 +6,7 @@
 /*   By: lbarreto <lbarreto@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 17:24:47 by lbarreto          #+#    #+#             */
-/*   Updated: 2025/05/18 17:25:38 by lbarreto         ###   ########.fr       */
+/*   Updated: 2025/05/22 13:03:41 by lbarreto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,5 @@ char	*ft_strconstjoin(char const *s1, char const *s2)
 		ft_strlcpy(join, s1, ft_strlen(s1) + 1);
 	ft_strlcpy(join + ft_strlen(s1), s2, ft_strlen(s2) + 1);
 	join[ft_strlen(s1) + ft_strlen(s2)] = '\0';
-	if (s1 != NULL)
-		free(s1);
-    if (s2 != NULL)
-        free(s2);
 	return (join);
 }

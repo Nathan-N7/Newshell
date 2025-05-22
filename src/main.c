@@ -6,7 +6,7 @@
 /*   By: lbarreto <lbarreto@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 15:08:56 by lbarreto          #+#    #+#             */
-/*   Updated: 2025/05/20 20:51:59 by lbarreto         ###   ########.fr       */
+/*   Updated: 2025/05/22 14:54:45 by lbarreto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,15 +36,23 @@ int	main(int argc, char **argv, char **envp)
 		data.last_exit = syntax_analyzer(&data);
 		variable_expansion(&data.tokens, data.envp);
 		join_words(&data.tokens);
-		handle_redirects(&data);
-		temp_token = data.tokens;
-		while (data.tokens)
+		if (handle_redirects(&data) != 0)
 		{
-			my_printf("Token word: %s Token type: %d Add Flag: %d\n", data.tokens->token_word, data.tokens->token_type, data.tokens->space_flag);
-			data.tokens = data.tokens->next;
-			my_printf("Token: %p\n", data.tokens);
+			dup2(data.stdout_fd, 1);
+			dup2(data.stdin_fd, 0);
+			free(rline);
+			//destroy_tokens(&temp_token);
+			continue ;
 		}
-
+		temp_token = data.tokens;
+		// while (data.tokens)
+		// {
+		// 	my_printf("Token word: %s Token type: %d Add Flag: %d\n", data.tokens->token_word, data.tokens->token_type, data.tokens->space_flag);
+		// 	data.tokens = data.tokens->next;
+		// 	my_printf("Token: %p\n", data.tokens);
+		// }
+		my_printf("Ta passando do temp_token\n Token_head: %s\n",data.tokens->token_word);
+		execute_command(&data);
 		dup2(data.stdout_fd, 1);
 		dup2(data.stdin_fd, 0);
 		free(rline);

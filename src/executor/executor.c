@@ -6,7 +6,7 @@
 /*   By: lbarreto <lbarreto@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 16:21:23 by lbarreto          #+#    #+#             */
-/*   Updated: 2025/05/18 17:28:19 by lbarreto         ###   ########.fr       */
+/*   Updated: 2025/05/22 14:11:30 by lbarreto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ char	*find_cmd_path(t_data *data, char *cmd_name)
 	char	**paths;
 	int		i;
 
+	i = 0;
 	cmd_path = ft_strdup("PATH");
 	cmd_path = replace_env(cmd_path, data->envp);
 	paths = ft_split(cmd_path, ':');
@@ -61,10 +62,28 @@ char	*find_cmd_path(t_data *data, char *cmd_name)
 	while (paths[i])
 	{
 		paths[i] = ft_strconcat(paths[i], "/");
-		if (access(ft_strlcat(paths[i], cmd_path, INT_MAX), X_OK) == 0)
-			cmd_path = ft_strconstjoin(paths[i], cmd_path);
+		paths[i] = ft_strconcat(paths[i], cmd_path);
+		if (access(paths[i], X_OK) == 0)
+		{
+			free(cmd_path);
+			cmd_path = ft_strdup(paths[i]);
+		}
 		i++;
 	}
 	free_split(paths);
 	return (cmd_path);
+}
+
+int	execute_command(t_data *data)
+{
+	//int		pid;
+	char	*cmd;
+	char	**args;
+
+	cmd = take_cmd_name(data);
+	cmd = find_cmd_path(data, cmd);
+	args = create_cmd_args(data);
+	if (execve(cmd, args, NULL) == -1)
+		my_printf("Execve falhou!\n cmd_path: %s\nargs[0]: %s\nargs[1]: %s\n", cmd, args[0],args[1]);
+	return (0);
 }

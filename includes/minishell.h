@@ -6,7 +6,7 @@
 /*   By: lbarreto <lbarreto@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 15:11:51 by lbarreto          #+#    #+#             */
-/*   Updated: 2025/05/20 21:01:29 by lbarreto         ###   ########.fr       */
+/*   Updated: 2025/05/22 14:21:24 by lbarreto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ char		*home_pathname(char *filename, t_data *data);
 char		*relative_pathname(char *filename, t_data *data);
 t_fd_list	*new_fd_node(int fd);
 void		add_fd_back(t_fd_list **fd_list, t_fd_list *new_fd);
-void		handle_redirects(t_data *data);
+int			handle_redirects(t_data *data);
 void		handle_redout(t_token **token, t_data *data);
 void		file_exists_redout(t_data *data, char *pathname);
 void		new_file_redout(t_data *data, char *pathname);
@@ -121,5 +121,9 @@ void		execute_redin(char *pathname, t_data *data);
 void		handle_heredoc(t_token **token, t_data *data);
 void		free_split(char **split_str);
 void		clear_redirect_tokens(t_token **token_head);
-
+char		*take_cmd_name(t_data *data);
+char		**create_cmd_args(t_data *data);
+char		*find_cmd_path(t_data *data, char *cmd_name);
+int			execute_command(t_data *data);
+void		shuffle_tokens(t_token **token_head);
 #endif

@@ -16,7 +16,8 @@ src/redirect/redirect_out.c \
 src/redirect/redirect.c \
 src/redirect/append.c \
 src/redirect/redirect_in.c \
-src/redirect/heredoc.c
+src/redirect/heredoc.c \
+src/executor/executor.c
 
 NAME = minishell
 
