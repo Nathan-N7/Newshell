@@ -6,7 +6,7 @@
 /*   By: lbarreto <lbarreto@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 15:08:56 by lbarreto          #+#    #+#             */
-/*   Updated: 2025/05/22 14:54:45 by lbarreto         ###   ########.fr       */
+/*   Updated: 2025/05/22 15:30:17 by lbarreto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int	main(int argc, char **argv, char **envp)
 		// 	data.tokens = data.tokens->next;
 		// 	my_printf("Token: %p\n", data.tokens);
 		// }
-		my_printf("Ta passando do temp_token\n Token_head: %s\n",data.tokens->token_word);
+		//my_printf("Ta passando do temp_token\n Token_head: %s\n",data.tokens->token_word);
 		execute_command(&data);
 		dup2(data.stdout_fd, 1);
 		dup2(data.stdin_fd, 0);

@@ -6,7 +6,7 @@
 /*   By: lbarreto <lbarreto@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 18:54:17 by lbarreto          #+#    #+#             */
-/*   Updated: 2025/04/18 00:54:37 by lbarreto         ###   ########.fr       */
+/*   Updated: 2025/05/22 15:58:18 by lbarreto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ int	ft_putnbr_fd(int n, int fd)
 	int		count;
 
 	count = 0;
-
 	if (n == -2147483648)
 		return (write(fd, "-2147483648", 11));
 	if (n < 0)

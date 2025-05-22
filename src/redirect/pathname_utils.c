@@ -6,7 +6,7 @@
 /*   By: lbarreto <lbarreto@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 15:45:13 by lbarreto          #+#    #+#             */
-/*   Updated: 2025/05/12 14:44:36 by lbarreto         ###   ########.fr       */
+/*   Updated: 2025/05/22 15:56:42 by lbarreto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 char	*create_pathname(char *filename, t_data *data)
 {
-	char	*pathname; 
+	char	*pathname;
 
 	if (*filename == '/')
 		return (filename);

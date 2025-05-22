@@ -6,7 +6,7 @@
 /*   By: lbarreto <lbarreto@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 12:51:32 by lbarreto          #+#    #+#             */
-/*   Updated: 2025/05/22 11:29:57 by lbarreto         ###   ########.fr       */
+/*   Updated: 2025/05/22 15:56:18 by lbarreto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,9 +74,9 @@ char	*expand_variable(char *token_word, t_env *envp)
 			variable = replace_env(variable, envp);
 			token_word = replace_variable(token_word, variable_len, variable);
 			if (ft_strlen(variable) == 0)
-	 			i--;
+				i--;
 		}
-		i++;	
+		i++;
 	}
 	return (token_word);
 }
@@ -108,5 +108,3 @@ void	join_words(t_token **token_head)
 		temp_t = temp_t->next;
 	}
 }
-
-

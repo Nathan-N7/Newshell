@@ -6,7 +6,7 @@
 /*   By: lbarreto <lbarreto@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 16:21:23 by lbarreto          #+#    #+#             */
-/*   Updated: 2025/05/22 14:11:30 by lbarreto         ###   ########.fr       */
+/*   Updated: 2025/05/22 15:55:14 by lbarreto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,16 +74,40 @@ char	*find_cmd_path(t_data *data, char *cmd_name)
 	return (cmd_path);
 }
 
-int	execute_command(t_data *data)
+void	execute_command(t_data *data)
 {
-	//int		pid;
+	pid_t	pid;
+	int		status;
 	char	*cmd;
 	char	**args;
 
 	cmd = take_cmd_name(data);
 	cmd = find_cmd_path(data, cmd);
 	args = create_cmd_args(data);
-	if (execve(cmd, args, NULL) == -1)
-		my_printf("Execve falhou!\n cmd_path: %s\nargs[0]: %s\nargs[1]: %s\n", cmd, args[0],args[1]);
-	return (0);
+	pid = fork();
+	if (pid == 0)
+	{
+		if (execve(cmd, args, NULL) == -1)
+		{
+			my_printf_fd("minishell: command not found: %s\n", 2, cmd);
+			exit(127);
+		}
+	}
+	else
+	{
+		waitpid(pid, &status, 0);
+		status = interpret_status(status);
+		data->last_exit = status;
+	}
+}
+
+int	interpret_status(int status)
+{
+	int	signal;
+
+	if (WIFSIGNALED(status))
+		signal = WTERMSIG(status);
+	else
+		signal = WEXITSTATUS(status);
+	return (signal);
 }

@@ -6,7 +6,7 @@
 /*   By: lbarreto <lbarreto@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 18:24:45 by lbarreto          #+#    #+#             */
-/*   Updated: 2025/05/22 14:08:34 by lbarreto         ###   ########.fr       */
+/*   Updated: 2025/05/22 15:57:03 by lbarreto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,11 @@ void	handle_append(t_token **token, t_data *data)
 {
 	char	*pathname;
 	t_token	*temp_next;
-	
+
 	pathname = (*token)->next->next->token_word;
 	temp_next = (*token)->next->next->next;
 	if (data->last_fd_out != -2)
-	close(data->last_fd_out);
+		close(data->last_fd_out);
 	if (pathname[0] == '~' || pathname [0] == '/')
 		pathname = create_pathname((*token)->next->next->token_word, data);
 	if (access(pathname, F_OK) == 0)

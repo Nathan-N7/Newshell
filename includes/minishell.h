@@ -6,7 +6,7 @@
 /*   By: lbarreto <lbarreto@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 15:11:51 by lbarreto          #+#    #+#             */
-/*   Updated: 2025/05/22 14:21:24 by lbarreto         ###   ########.fr       */
+/*   Updated: 2025/05/22 16:02:27 by lbarreto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@
 # include <signal.h>
 # include <errno.h>
 # include <limits.h>
-
+# include <sys/wait.h>
+# include <sys/types.h>
 
 # define TRUE 1
 # define FALSE 0
@@ -31,7 +32,6 @@
 enum	e_errors {
 	UNCLOSED_QUOTES = -1,
 	UNEXPECTED_TOKEN = 2,
-
 };
 
 enum	e_tokens {
@@ -46,25 +46,18 @@ enum	e_tokens {
 	OPEN_QUOTE
 };
 
-typedef	struct s_token {
+typedef struct s_token {
 	char			*token_word;
 	int				token_type;
 	int				space_flag;
 	struct s_token	*next;
 }	t_token;
 
-typedef	struct s_env {
-	char	*env_name;
-	char	*env_value;
+typedef struct s_env {
+	char			*env_name;
+	char			*env_value;
 	struct s_env	*next;
 }	t_env;
-
-typedef struct s_fd_list
-{
-	int					fd;
-	struct s_fd_list	*next;	
-} t_fd_list;
-
 
 typedef struct s_data {
 	t_token		*tokens;
@@ -74,7 +67,7 @@ typedef struct s_data {
 	int			last_exit;
 	int			last_fd_out;
 	int			last_fd_in;
-	int			redirect_error; //bool 
+	int			redirect_error;
 }	t_data;
 
 void		handle_quote(char *rline, t_token **token, char quote_type);
@@ -96,7 +89,7 @@ int			redirect_analysis(t_token *token);
 int			syntax_analyzer(t_data *data);
 void		variable_expansion(t_token **token_head, t_env *envp);
 char		*replace_env(char *variable, t_env *envp);
-char		*replace_variable(char *token_word, int	variable_len, \
+char		*replace_variable(char *token_word, int variable_len, \
 char *variable);
 char		*expand_variable(char *token_word, t_env *envp);
 void		join_words(t_token **token_head);
@@ -105,13 +98,10 @@ void		join_tokens(t_token **token);
 char		*create_pathname(char *filename, t_data *data);
 char		*home_pathname(char *filename, t_data *data);
 char		*relative_pathname(char *filename, t_data *data);
-t_fd_list	*new_fd_node(int fd);
-void		add_fd_back(t_fd_list **fd_list, t_fd_list *new_fd);
 int			handle_redirects(t_data *data);
 void		handle_redout(t_token **token, t_data *data);
 void		file_exists_redout(t_data *data, char *pathname);
 void		new_file_redout(t_data *data, char *pathname);
-void		clear_fd_list(t_fd_list **fd_list);
 void		handle_append(t_token **token, t_data *data);
 void		file_exists_append(t_data *data, char *pathname);
 void		new_file_append(t_data *data, char *pathname);
@@ -124,6 +114,8 @@ void		clear_redirect_tokens(t_token **token_head);
 char		*take_cmd_name(t_data *data);
 char		**create_cmd_args(t_data *data);
 char		*find_cmd_path(t_data *data, char *cmd_name);
-int			execute_command(t_data *data);
+void		execute_command(t_data *data);
 void		shuffle_tokens(t_token **token_head);
+int			interpret_status(int status);
+
 #endif

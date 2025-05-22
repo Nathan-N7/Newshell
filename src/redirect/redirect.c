@@ -6,7 +6,7 @@
 /*   By: lbarreto <lbarreto@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 19:55:52 by lbarreto          #+#    #+#             */
-/*   Updated: 2025/05/22 14:58:02 by lbarreto         ###   ########.fr       */
+/*   Updated: 2025/05/22 15:57:17 by lbarreto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ int	handle_redirects(t_data *data)
 		return (-1);
 	return (0);
 }
+
 void	shuffle_tokens(t_token **token_head)
 {
 	t_token	*temp_t;
