@@ -6,7 +6,7 @@
 /*   By: lbarreto <lbarreto@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 19:50:49 by lbarreto          #+#    #+#             */
-/*   Updated: 2025/05/22 13:21:46 by lbarreto         ###   ########.fr       */
+/*   Updated: 2025/05/22 16:25:24 by lbarreto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,11 +60,8 @@ void	destroy_tokens(t_token **token_head)
 
 void	clear_redirect_tokens(t_token **token_head)
 {
-	(*token_head)->next->token_word = NULL;
 	free((*token_head)->next->token_word);
-	(*token_head)->next = NULL;
 	free((*token_head)->next);
-	*token_head = NULL;
 	free(*token_head);
 }
 
