@@ -126,9 +126,6 @@ t_command	*parse_tokens(t_token *tokens, t_envp *env)
 			return (free_commands(head), NULL);
 		tok = tok->next;
 	}
-	if (!current || (current->redirect_count == 0 && !current->args[0]))
-		return (free_commands(head), 
-	write(2, "\033[1;31m🚨 Syntax Error: tokenize\033[0m\n", 39), NULL);
 	return (current->args[count] = NULL, head);
 }
 

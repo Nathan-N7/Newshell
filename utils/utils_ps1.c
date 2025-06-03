@@ -33,7 +33,10 @@ int	handle_redir(t_command *cmd, t_token **tok)
 {
 	if (!(*tok)->next || (*tok)->next->type != WORD)
 	{
-		write(2, "\033[1;31m🚨 Syntax Error: tokenize\033[0m\n", 39);
+		if ((*tok)->next)
+			my_printf_fd("bash: erro de sintaxe próximo ao token inesperado `%s'\n", 2, (*tok)->next->value);
+		else
+			my_printf_fd("bash: erro de sintaxe próximo ao token inesperado `newline'\n", 2);
 		return (0);
 	}
 	if (cmd->redirect_count > MAX_REDIRS)
@@ -50,7 +53,7 @@ int	handle_pipe(t_command **cmd, int *count)
 {
 	if (!(*cmd)->args || !(*cmd)->args[0])
 	{
-		write(2, "\033[1;31m🚨 Syntax Error: tokenize\033[0m\n", 39);
+		my_printf_fd("bash: erro de sintaxe próximo ao token inesperado `|'\n", 2);
 		return (0);
 	}
 	(*cmd)->args[*count] = NULL;
