@@ -53,6 +53,11 @@ int	execute_builtin(t_envp *env, t_command *cmd)
 		return (ft_export(cmd->args, env));
 	else if (ft_strcmp(cmd->args[0], "unset") == 0)
 		return (ft_unset(cmd->args, env));
+	else if (ft_strcmp(cmd->args[0], "exit") == 0)
+	{
+		ft_exit(cmd->args, env);
+		return (1);
+	}
 	else
 		return (1);
 }
