@@ -69,5 +69,6 @@ int         handle_redirects(t_command *cmd, t_envp *env);
 void        handle_redout(t_redirect *redir, int *error_flag, char **envp);
 int	        execute_builtin(t_envp *env, t_command *cmd);
 void	    free_env(char **envp);
+void	    ft_free_split(char **split);
 
 #endif
