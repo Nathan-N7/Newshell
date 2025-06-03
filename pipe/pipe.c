@@ -80,6 +80,7 @@ void	son(int in_fd, int fd[2], t_command *cmd, t_envp *env)
 			execute_cmd(cmd, env);
 	}
 	free_commands(cmd);
+	free_env(env->envp);
 	exit (0);
 }
 

@@ -46,6 +46,8 @@ void	free_env(char **envp)
 {
 	int	i;
 
+	if (!envp)
+		return ;
 	i = 0;
 	while (envp[i])
 	{

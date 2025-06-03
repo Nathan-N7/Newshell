@@ -54,8 +54,7 @@ int	main(int ac, char **av, char **envp)
 		root = parsing(input, &env);
 		if (root)
 			my_pipe(root, &env);
-		if (root)
-			free_commands(root);
+		free_commands(root);
 		free (input);
 	}
 	free_env (env.envp);
