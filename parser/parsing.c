@@ -52,23 +52,6 @@ void	print_tokens(t_token *tokens)
     }
 }*/
 
-int	init_redir(t_command *cmd)
-{
-	int	i;
-
-	if (cmd->redirect_count == 0)
-		return (0);
-	i = 0;
-	while (i < cmd->redirect_count)
-	{
-		if (cmd->redirects[i].type != REDIR_OUT
-			&& cmd->redirects[i].type != APPEND)
-			return (0);
-		i++;
-	}
-	return (1);
-}
-
 t_command	*new_command(t_token *tok, t_command **head)
 {
 	
