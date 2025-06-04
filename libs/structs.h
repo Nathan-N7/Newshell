@@ -40,7 +40,6 @@ typedef struct s_command
 	char				**args;
 	t_redirect			*redirects;
 	int					redirect_count;
-	int					in_fd;
 	struct s_command	*next;
 }	t_command;
 
