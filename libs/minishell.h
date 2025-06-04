@@ -13,8 +13,6 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-# define MAX_ARGS 512
-# define MAX_REDIRS 32
 # define TRUE 1
 # define FALSE 0
 
@@ -40,11 +38,11 @@ int			ft_isspace(char c);
 char		*strip_aspas(char *str);
 void		free_tokens(t_token *head);
 int			verify_aspas(char *r);
-t_command	*new_command(t_command **head);
+t_command	*new_command(t_token *tok, t_command **head);
 int			print_error(char *msg);
 int	        handle_word(t_command *cmd, t_token *tok, int *c, t_envp *env);
 int			handle_redir(t_command *cmd, t_token **tok);
-int			handle_pipe(t_command **cmd, int *count);
+int			handle_pipe(t_command **cmd, t_token **tok, int *count);
 void		free_commands(t_command *cmd);
 char		*get_value(char *name, char **envp);
 char	    *expand_var(char *src, t_envp *env);
@@ -70,5 +68,6 @@ void        handle_redout(t_redirect *redir, int *error_flag, char **envp);
 int	        execute_builtin(t_envp *env, t_command *cmd);
 void	    free_env(char **envp);
 void	    ft_free_split(char **split);
+void	    count_args_redirs(t_token *tok, int *arg_count, int *redir_count);
 
 #endif

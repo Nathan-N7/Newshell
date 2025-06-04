@@ -69,17 +69,30 @@ int	init_redir(t_command *cmd)
 	return (1);
 }
 
-t_command	*new_command(t_command **head)
+t_command	*new_command(t_token *tok, t_command **head)
 {
+	
+	int			arg_count;
+	int			redir_count;
 	t_command	*new;
 
+	count_args_redirs(tok, &arg_count, &redir_count);
 	new = ft_calloc(1, sizeof(t_command));
 	if (!new)
 		return (NULL);
-	new->args = ft_calloc(MAX_ARGS, sizeof(char *));
+	new->args = ft_calloc(arg_count + 1, sizeof(char *));
 	if (!new->args)
-		return (NULL);
-	new->redirects = ft_calloc(MAX_REDIRS, sizeof(t_redirect));
+		return (free(new), NULL);
+	if (redir_count > 0)
+	{
+		new->redirects = ft_calloc(redir_count, sizeof(t_redirect));
+		if (!new->redirects)
+		{
+			free(new->args);
+			free(new);
+			return (NULL);
+		}
+	}
 	if (!*head)
 		*head = new;
 	return (new);
@@ -97,7 +110,7 @@ int	parse_token2(t_command **cmd, t_token **tok, int *c, t_envp *env)
 	}
 	else if ((*tok)->type == PIPE)
 	{
-		if (!handle_pipe(cmd, c))
+		if (!handle_pipe(cmd, tok, c))
 			return (0);
 	}
 	return (1);
@@ -118,7 +131,7 @@ t_command	*parse_tokens(t_token *tokens, t_envp *env)
 	{
 		if (!current)
 		{
-			current = new_command(&head);
+			current = new_command(tok, &head);
 			if (!current)
 				return (free_commands(head), NULL);
 		}
