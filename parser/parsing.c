@@ -52,34 +52,30 @@ void	print_tokens(t_token *tokens)
     }
 }*/
 
-int	init_redir(t_command *cmd)
+t_command	*new_command(t_token *tok, t_command **head)
 {
-	int	i;
-
-	if (cmd->redirect_count == 0)
-		return (0);
-	i = 0;
-	while (i < cmd->redirect_count)
-	{
-		if (cmd->redirects[i].type != REDIR_OUT
-			&& cmd->redirects[i].type != APPEND)
-			return (0);
-		i++;
-	}
-	return (1);
-}
-
-t_command	*new_command(t_command **head)
-{
+	
+	int			arg_count;
+	int			redir_count;
 	t_command	*new;
 
+	count_args_redirs(tok, &arg_count, &redir_count);
 	new = ft_calloc(1, sizeof(t_command));
 	if (!new)
 		return (NULL);
-	new->args = ft_calloc(MAX_ARGS, sizeof(char *));
+	new->args = ft_calloc(arg_count + 1, sizeof(char *));
 	if (!new->args)
-		return (NULL);
-	new->redirects = ft_calloc(MAX_REDIRS, sizeof(t_redirect));
+		return (free(new), NULL);
+	if (redir_count > 0)
+	{
+		new->redirects = ft_calloc(redir_count, sizeof(t_redirect));
+		if (!new->redirects)
+		{
+			free(new->args);
+			free(new);
+			return (NULL);
+		}
+	}
 	if (!*head)
 		*head = new;
 	return (new);
@@ -97,7 +93,7 @@ int	parse_token2(t_command **cmd, t_token **tok, int *c, t_envp *env)
 	}
 	else if ((*tok)->type == PIPE)
 	{
-		if (!handle_pipe(cmd, c))
+		if (!handle_pipe(cmd, tok, c))
 			return (0);
 	}
 	return (1);
@@ -118,7 +114,7 @@ t_command	*parse_tokens(t_token *tokens, t_envp *env)
 	{
 		if (!current)
 		{
-			current = new_command(&head);
+			current = new_command(tok, &head);
 			if (!current)
 				return (free_commands(head), NULL);
 		}
@@ -126,9 +122,6 @@ t_command	*parse_tokens(t_token *tokens, t_envp *env)
 			return (free_commands(head), NULL);
 		tok = tok->next;
 	}
-	if (!current || (current->redirect_count == 0 && !current->args[0]))
-		return (free_commands(head), 
-	write(2, "\033[1;31m🚨 Syntax Error: tokenize\033[0m\n", 39), NULL);
 	return (current->args[count] = NULL, head);
 }
 
