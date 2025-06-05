@@ -4,7 +4,21 @@
 
 void handle_heredoc(t_redirect *redir, t_envp *env)
 {
-    char    *rline;
+	int	pid;
+
+	pid = fork();
+	if (pid == 0)
+	{
+		signal(SIGINT, SIG_DFL);
+		handle_heredoc_son(redir, env);
+	}
+	else
+		waitpid(pid, NULL, 0);
+}
+
+void	handle_heredoc_son(t_redirect *redir, t_envp *env)
+{
+	char    *rline;
     int     pipefd[2];
 	char	*e_rline;
 
@@ -14,7 +28,7 @@ void handle_heredoc(t_redirect *redir, t_envp *env)
 		rline = readline(">");
 		if (!rline)
 			break ;
-		if (!strcmp(rline, redir->filename))
+		if (!ft_strcmp(rline, redir->filename))
 		{
 			free(rline);
 			break ;
@@ -28,3 +42,4 @@ void handle_heredoc(t_redirect *redir, t_envp *env)
 	dup2(pipefd[0], STDIN_FILENO);
 	close(pipefd[0]);
 }
+

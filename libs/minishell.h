@@ -6,7 +6,7 @@
 /*   By: lbarreto <lbarreto@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 16:07:55 by natrodri          #+#    #+#             */
-/*   Updated: 2025/05/27 19:11:50 by lbarreto         ###   ########.fr       */
+/*   Updated: 2025/06/05 16:23:28 by lbarreto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,5 +69,8 @@ int	        execute_builtin(t_envp *env, t_command *cmd);
 void	    free_env(char **envp);
 void	    ft_free_split(char **split);
 void	    count_args_redirs(t_token *tok, int *arg_count, int *redir_count);
+void    	handle_sig(int sig);
+void    	handle_heredoc_son(t_redirect *redir, t_envp *env);
+void    	set_sig_exec(void);
 
 #endif
