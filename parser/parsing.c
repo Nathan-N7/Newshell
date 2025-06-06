@@ -6,7 +6,7 @@
 /*   By: lbarreto <lbarreto@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 14:55:30 by natrodri          #+#    #+#             */
-/*   Updated: 2025/05/27 20:16:44 by lbarreto         ###   ########.fr       */
+/*   Updated: 2025/06/05 21:39:31 by lbarreto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,25 +127,29 @@ t_command	*parse_tokens(t_token *tokens, t_envp *env)
 
 t_command	*parsing(char *input, t_envp *env)
 {
-	char		*r;
+	char		*read;
 	t_token		*tokens;
 	t_command	*commands;
 
-	r = ft_strtrim(input, " \t\n\v\r\f");
-	if (!r || r[0] == '\0')
-		return (free(r), NULL);
-	if (!verify_aspas(r))
+	read = ft_strtrim(input, " \t\n\v\r\f");
+	if (!read || read[0] == '\0')
+		return (free(read), NULL);
+	if (!verify_aspas(read))
 	{
-		free(r);
-		write(2, "\033[1;31m🚨 Syntax Error: Aspas abertas\033[0m\n", 36);
-		exit (0);
+		free(read);
+		my_printf_fd("\033[1;31m🚨 Syntax Error: Aspas abertas\033[0m\n", 2);
+		env->last_stats = 2;
+		return (NULL);
 	}
-	tokens = tokenize(r);
+	tokens = tokenize(read);
+	if (syntax_analyzer(tokens, env) == -1)
+	{
+		free(read);
+		free_tokens(tokens);
+		return (NULL);
+	}
 	commands = parse_tokens(tokens, env);
-	/*if (commands)
-		print_commands(commands);
-	print_tokens(tokens);*/
-	free(r);
+	free(read);
 	free_tokens(tokens);
 	return (commands);
 }

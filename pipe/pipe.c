@@ -6,7 +6,7 @@
 /*   By: lbarreto <lbarreto@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 11:27:51 by natrodri          #+#    #+#             */
-/*   Updated: 2025/05/27 20:06:23 by lbarreto         ###   ########.fr       */
+/*   Updated: 2025/06/05 19:53:18 by lbarreto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void	execute_cmd(t_command *cmd, t_envp *env)
 	}
 	ft_free_split(path);
 	printf("%s: command not found\n", cmd->args[0]);
-	exit (1);
+	exit(127);
 }
 
 void	son(int in_fd, int fd[2], t_command *cmd, t_envp *env)
@@ -129,14 +129,14 @@ void	my_pipe(t_command *cmd, t_envp *env)
 			father(&in_fd, fd, cmd);
 		cmd = cmd->next;
 	}
-
-	while (waitpid(-1, &status, 0) > 0)
-	{
-		if (WIFEXITED(status))
-			env->last_stats = WEXITSTATUS(status);
-		else
-			env->last_stats = 1;
-	}
+	waitpid(pid, &status, 0);
+	//my_printf("Status: %d\nExit Status: %d\nWTermSIG: %d\n", status, WEXITSTATUS(status), WTERMSIG(status));	
+	if (WIFSIGNALED(status))
+		env->last_stats = WTERMSIG(status) + 128;
+	else if (WIFEXITED(status))
+		env->last_stats = WEXITSTATUS(status);
+	else
+		my_printf("Não tomou EXITED\n");
 }
 /*[cmd1] ---stdout---> [pipe1] ---stdin---> [cmd2] ---stdout---> [pipe2] ---stdin---> [cmd3]
           	(fd[1])              (fd[0])         	 (fd[1])                fd[0])

@@ -6,7 +6,7 @@
 /*   By: lbarreto <lbarreto@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 16:07:55 by natrodri          #+#    #+#             */
-/*   Updated: 2025/06/05 16:23:28 by lbarreto         ###   ########.fr       */
+/*   Updated: 2025/06/05 21:18:09 by lbarreto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,5 +72,8 @@ void	    count_args_redirs(t_token *tok, int *arg_count, int *redir_count);
 void    	handle_sig(int sig);
 void    	handle_heredoc_son(t_redirect *redir, t_envp *env);
 void    	set_sig_exec(void);
+int 	    syntax_analyzer(t_token *token, t_envp *env);
+int	        redirect_analysis(t_token *token, t_envp *env);
+int	        pipe_analysis(t_token *token, t_envp *env);
 
 #endif
