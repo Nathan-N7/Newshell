@@ -13,6 +13,23 @@
 #include "../libs/minishell.h"
 #include "../libs/structs.h"
 #include "../my_lib/libft.h"
+void	count_args_redirs(t_token *tok, int *arg_count, int *redir_count)
+{
+	*arg_count = 0;
+	*redir_count = 0;
+	while (tok && tok->type != PIPE)
+	{
+		if (tok->type == WORD)
+			(*arg_count)++;
+		else if (tok->type == REDIR_IN || tok->type == REDIR_OUT
+			|| tok->type == APPEND || tok->type == HEREDOC)
+		{
+			(*redir_count)++;
+			tok = tok->next;
+		}
+		tok = tok->next;
+	}
+}
 
 int	verify_aspas(char *r)
 {

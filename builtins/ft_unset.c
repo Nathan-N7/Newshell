@@ -70,12 +70,12 @@ int verify_var_unset(char *str)
 int ft_unset(char **args, t_envp *env)
 {
     int i;
-    int rtrn;
 
     i = -1;
-    rtrn = 0;
     while (args[++i])
         env->envp = removed_var(env->envp, args[i]);
+    if (!env->envp)
+        return (1);
     return (0);
 }
 

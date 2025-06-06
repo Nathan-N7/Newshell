@@ -14,6 +14,21 @@
 #include "../my_lib/libft.h"
 #include "../libs/structs.h"
 
+void	ft_free_split(char **split)
+{
+	int	i;
+
+	if (!split)
+		return ;
+	i = 0;
+	while (split[i])
+	{
+		free(split[i]);
+		i++;
+	}
+	free(split);
+}
+
 int	builtin_father(t_command *cmd)
 {
 	if (!cmd || !cmd->args || !cmd->args[0])
@@ -53,6 +68,11 @@ int	execute_builtin(t_envp *env, t_command *cmd)
 		return (ft_export(cmd->args, env));
 	else if (ft_strcmp(cmd->args[0], "unset") == 0)
 		return (ft_unset(cmd->args, env));
+	else if (ft_strcmp(cmd->args[0], "exit") == 0)
+	{
+		ft_exit(cmd->args, env);
+		return (1);
+	}
 	else
 		return (1);
 }

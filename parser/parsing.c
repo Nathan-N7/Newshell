@@ -6,7 +6,7 @@
 /*   By: lbarreto <lbarreto@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 14:55:30 by natrodri          #+#    #+#             */
-/*   Updated: 2025/05/27 20:16:44 by lbarreto         ###   ########.fr       */
+/*   Updated: 2025/06/05 21:39:31 by lbarreto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,34 +52,30 @@ void	print_tokens(t_token *tokens)
     }
 }*/
 
-int	init_redir(t_command *cmd)
+t_command	*new_command(t_token *tok, t_command **head)
 {
-	int	i;
-
-	if (cmd->redirect_count == 0)
-		return (0);
-	i = 0;
-	while (i < cmd->redirect_count)
-	{
-		if (cmd->redirects[i].type != REDIR_OUT
-			&& cmd->redirects[i].type != APPEND)
-			return (0);
-		i++;
-	}
-	return (1);
-}
-
-t_command	*new_command(t_command **head)
-{
+	
+	int			arg_count;
+	int			redir_count;
 	t_command	*new;
 
+	count_args_redirs(tok, &arg_count, &redir_count);
 	new = ft_calloc(1, sizeof(t_command));
 	if (!new)
 		return (NULL);
-	new->args = ft_calloc(MAX_ARGS, sizeof(char *));
+	new->args = ft_calloc(arg_count + 1, sizeof(char *));
 	if (!new->args)
-		return (NULL);
-	new->redirects = ft_calloc(MAX_REDIRS, sizeof(t_redirect));
+		return (free(new), NULL);
+	if (redir_count > 0)
+	{
+		new->redirects = ft_calloc(redir_count, sizeof(t_redirect));
+		if (!new->redirects)
+		{
+			free(new->args);
+			free(new);
+			return (NULL);
+		}
+	}
 	if (!*head)
 		*head = new;
 	return (new);
@@ -97,7 +93,7 @@ int	parse_token2(t_command **cmd, t_token **tok, int *c, t_envp *env)
 	}
 	else if ((*tok)->type == PIPE)
 	{
-		if (!handle_pipe(cmd, c))
+		if (!handle_pipe(cmd, tok, c))
 			return (0);
 	}
 	return (1);
@@ -118,7 +114,7 @@ t_command	*parse_tokens(t_token *tokens, t_envp *env)
 	{
 		if (!current)
 		{
-			current = new_command(&head);
+			current = new_command(tok, &head);
 			if (!current)
 				return (free_commands(head), NULL);
 		}
@@ -126,33 +122,34 @@ t_command	*parse_tokens(t_token *tokens, t_envp *env)
 			return (free_commands(head), NULL);
 		tok = tok->next;
 	}
-	if (!current || (current->redirect_count == 0 && !current->args[0]))
-		return (free_commands(head), 
-	write(2, "\033[1;31m🚨 Syntax Error: tokenize\033[0m\n", 39), NULL);
 	return (current->args[count] = NULL, head);
 }
 
 t_command	*parsing(char *input, t_envp *env)
 {
-	char		*r;
+	char		*read;
 	t_token		*tokens;
 	t_command	*commands;
 
-	r = ft_strtrim(input, " \t\n\v\r\f");
-	if (!r || r[0] == '\0')
-		return (free(r), NULL);
-	if (!verify_aspas(r))
+	read = ft_strtrim(input, " \t\n\v\r\f");
+	if (!read || read[0] == '\0')
+		return (free(read), NULL);
+	if (!verify_aspas(read))
 	{
-		free(r);
-		write(2, "\033[1;31m🚨 Syntax Error: Aspas abertas\033[0m\n", 36);
-		exit (0);
+		free(read);
+		my_printf_fd("\033[1;31m🚨 Syntax Error: Aspas abertas\033[0m\n", 2);
+		env->last_stats = 2;
+		return (NULL);
 	}
-	tokens = tokenize(r);
+	tokens = tokenize(read);
+	if (syntax_analyzer(tokens, env) == -1)
+	{
+		free(read);
+		free_tokens(tokens);
+		return (NULL);
+	}
 	commands = parse_tokens(tokens, env);
-	/*if (commands)
-		print_commands(commands);
-	print_tokens(tokens);*/
-	free(r);
+	free(read);
 	free_tokens(tokens);
 	return (commands);
 }

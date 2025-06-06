@@ -4,12 +4,10 @@
 
 void    set_path(char **envp, char *path, char *name)
 {
-    int i;
-    int k;
+    int     i;
     char    *tmp;
     char    *new_var;
 
-    k = 0;
     i = get_index(envp, name);
     if (i == -1)
         return ;
@@ -40,5 +38,5 @@ int ft_cd(char *path, t_envp *env)
     path_pwd = getcwd(NULL, 0);
     set_path(env->envp, path_old, "OLDPWD");
     set_path(env->envp, path_pwd, "PWD");
-    return (free(path_old), 0);
+    return (free(path_old), free(path_pwd), 0);
 }
