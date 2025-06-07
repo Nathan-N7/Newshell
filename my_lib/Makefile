@@ -12,7 +12,7 @@
 
 NAME = libft.a
 
-FLAGS = -Wall -Werror -Wextra
+FLAGS = -g -Wall -Werror -Wextra
 
 FUNCTIONS = ft_isprint.c     ft_putendl_fd.c  ft_strlcat.c  ft_substr.c \
 ft_atoi.c     ft_itoa.c        ft_putnbr_fd.c   ft_strlcpy.c  ft_tolower.c \

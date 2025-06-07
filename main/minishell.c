@@ -14,13 +14,17 @@
 #include "../my_lib/libft.h"
 #include "../libs/structs.h"
 
+int g_signal = 0;
+
 void	handle_sig(int sig)
 {
 	(void)sig;
+
 	write(1, "\n", 1);
 	rl_replace_line("", 0);
 	rl_on_new_line();
 	rl_redisplay();
+	g_signal = 130;
 }
 
 
@@ -58,7 +62,8 @@ int	main(int ac, char **av, char **envp)
 	{
 		set_sig();
 		input = readline("\033[1;35m~sush$>\033[0m ");
-		if (!input || ft_strcmp(input, "exit") == 0)
+		env.last_stats = g_signal;
+		if (!input)
 		{
 			free(input);
 			break ;
@@ -74,7 +79,5 @@ int	main(int ac, char **av, char **envp)
 		free_commands(root);
 		free (input);
 	}
-	free_env (env.envp);
-	rl_clear_history();
-	return (0);
+	return (free_env (env.envp), rl_clear_history(), 0);
 }

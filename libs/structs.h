@@ -29,10 +29,17 @@ typedef enum e_op
 	pid
 }	t_op;
 
+typedef struct s_pid
+{
+	int				pid;
+	struct s_pid	*next;
+}	t_pid;
+
 typedef struct s_redirect
 {
 	t_tk_type	type;
 	char		*filename;
+	int			fd;
 }	t_redirect;
 
 typedef struct s_command

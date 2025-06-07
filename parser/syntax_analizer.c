@@ -16,6 +16,13 @@
 
 int	pipe_analysis(t_token *token, t_envp *env)
 {
+	if (token->type == PIPE && token->next == NULL)
+	{
+		my_printf_fd("minishell: syntax error near unexpected \
+token `%s'\n", 2, token->value);
+		env->last_stats = 2;
+        return (-1);
+	}
 	if (token->type == PIPE && token->next->type == PIPE)
 	{
 		my_printf_fd("minishell: syntax error near unexpected \

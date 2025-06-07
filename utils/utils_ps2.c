@@ -85,6 +85,8 @@ void	free_commands(t_command *cmd)
 	t_command	*tmp;
 	int			i;
 
+	if (!cmd)
+		return ;
 	while (cmd)
 	{
 		i = -1;

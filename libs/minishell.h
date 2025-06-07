@@ -75,5 +75,6 @@ void    	set_sig_exec(void);
 int 	    syntax_analyzer(t_token *token, t_envp *env);
 int	        redirect_analysis(t_token *token, t_envp *env);
 int	        pipe_analysis(t_token *token, t_envp *env);
+void	    execute_cmd(t_command *cmd, t_envp *env);
 
 #endif

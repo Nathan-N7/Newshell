@@ -1,6 +1,6 @@
 NAME = minishell
 CC = cc
-FLAGS = -Wall -Werror -Wextra -Ilibs
+FLAGS = -g -Wall -Werror -Wextra -Ilibs
 
 SRCS = \
 	main/minishell.c \
@@ -25,7 +25,8 @@ SRCS = \
 	redirects/redout.c \
 	redirects/redin.c \
 	redirects/append.c \
-	redirects/heredoc.c
+	redirects/heredoc.c \
+	executor/executor.c
 
 OBJDIR = objects
 OBJS = $(SRCS:.c=.o)
@@ -47,7 +48,7 @@ $(LIBFT):
 	@make -C my_lib
 
 clean:
-	@rm -f $(OBJDIR)/*.o
+	@rm -f $(OBJS)
 	@make -C my_lib clean
 
 fclean: clean

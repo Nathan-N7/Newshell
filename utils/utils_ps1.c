@@ -47,11 +47,6 @@ int	handle_redir(t_command *cmd, t_token **tok)
 
 int	handle_pipe(t_command **cmd, t_token **tok, int *count)
 {
-	if (!(*cmd)->args || !(*cmd)->args[0])
-	{
-		my_printf_fd("bash: erro de sintaxe próximo ao token inesperado `|'\n", 2);
-		return (0);
-	}
 	(*cmd)->args[*count] = NULL;
 	*cmd = new_command((*tok)->next, &(*cmd)->next);
 	if (!*cmd)
