@@ -74,7 +74,7 @@ int	execute_builtin(t_envp *env, t_command *cmd)
 		return (1);
 	}
 	else
-		return (1);
+		return (0);
 }
 
 void	error_pipe(char *join, t_op	op)
@@ -83,7 +83,13 @@ void	error_pipe(char *join, t_op	op)
 	{
 		perror("execve");
 		free(join);
-		exit (1);
+		exit (126);
+	}
+	else if (op == not_found)
+	{
+		my_printf_fd("%s: command not found\n", 2, join);
+		free(join);
+		exit(127);
 	}
 	else if (op == pid)
 	{

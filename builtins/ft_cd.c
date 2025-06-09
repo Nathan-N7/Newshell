@@ -23,7 +23,6 @@ int ft_cd(char *path, t_envp *env)
     char    *home;
     char    *path_old;
     char    *path_pwd;
-    char    *new_path;
 
     if (!path || ft_strcmp(path, "~") == 0)
     {
@@ -33,7 +32,12 @@ int ft_cd(char *path, t_envp *env)
             my_printf_fd("minishell: cd: HOME not set\n", 2);
             return (1);
         }
-        new_path = create_pathname(path, env->envp);
+        path = home;
+    }
+    if (access(path, F_OK) != 0)
+    {
+        my_printf_fd("minishell: cd: %s: No such file or directory\n", 2 ,path);
+        return (1);
     }
     if (isdirectory(path) == 0)
     {
@@ -43,11 +47,6 @@ int ft_cd(char *path, t_envp *env)
     if (access(path, X_OK) != 0)
     {
         my_printf_fd("minishell: cd: %s: Permission denied\n", 2, path);
-        return (1);
-    }
-    if (access(path, F_OK) != 0)
-    {
-        my_printf_fd("minishell: cd: %s: No such file or directory\n", 2 ,path);
         return (1);
     }
     path_old = getcwd(NULL, 0);

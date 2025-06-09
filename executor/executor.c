@@ -58,6 +58,6 @@ void	execute_cmd(t_command *cmd, t_envp *env)
 	if (ft_strchr(cmd->args[0], '/'))
 		exec_direct_path(cmd, env);
 	exec_from_path(cmd, env);
-	printf("%s: command not found\n", cmd->args[0]);
+	my_printf_fd("%s: command not found\n", 2, cmd->args[0]);
 	exit (127);
 }

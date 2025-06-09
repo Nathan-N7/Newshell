@@ -28,8 +28,8 @@ void ft_exit(char **args, t_envp *env)
 		if (!is_numeric(args[1]))
 		{
 			my_printf_fd("minishell: exit: %s: numeric argument required\n", 2, args[1]);
-			env->last_stats = 2;
-			exit(2);
+			env->last_stats = 255;
+			exit(255);
 		}
 		else if (args[2])
 		{

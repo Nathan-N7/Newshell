@@ -20,13 +20,13 @@ void	add_pid(t_pid **head, int new)
 	t_pid	*new_pid;
 
 	new_pid = (t_pid *)ft_calloc(sizeof(t_pid), 1);
+	new_pid->pid = new;
+	new_pid->next = NULL;
 	if (!*head)
 	{
 		*head = new_pid;
 		return ;
 	}
-	new_pid->pid = new;
-	new_pid->next = NULL;
 	tmp = *head;
 	while (tmp->next)
 		tmp = tmp->next;
@@ -41,7 +41,7 @@ void	delete_pid(t_pid **head)
 	{
 		temp_next = (*head)->next;
 		free(*head);
-		(*head)->next = temp_next;
+		(*head) = temp_next;
 	}
 }
 
@@ -89,7 +89,7 @@ void	son(int in_fd, int fd[2], t_command *cmd, t_envp *env)
 	if (cmd->args && cmd->args[0])
 	{
 		if (is_builtin(cmd))
-			execute_builtin(env, cmd);
+			exit (execute_builtin(env, cmd));
 		else
 			execute_cmd(cmd, env);
 	}
