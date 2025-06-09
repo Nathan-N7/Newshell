@@ -62,6 +62,11 @@ int	main(int ac, char **av, char **envp)
 	{
 		set_sig();
 		input = readline("\033[1;35m~sush$>\033[0m ");
+		if (g_signal == 130)
+		{
+			env.last_stats = g_signal;
+			g_signal = 0;
+		}
 		if (!input)
 		{
 			free(input);
