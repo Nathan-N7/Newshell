@@ -6,7 +6,7 @@
 /*   By: lbarreto <lbarreto@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 11:27:51 by natrodri          #+#    #+#             */
-/*   Updated: 2025/06/06 12:39:57 by natrodri         ###   ########.fr       */
+/*   Updated: 2025/06/09 11:38:16 by lbarreto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,8 +121,6 @@ int	handle_child_and_parent(int *in_fd, int *fd, t_command **cmd, t_envp *env)
 		perror("pipe");
 		exit(1);
 	}
-	fd[0] = -2;
-	fd[1] = -2;
 	pid = fork();
 	if (pid == -1)
 		error_pipe(NULL, pid);
@@ -144,6 +142,8 @@ void	my_pipe(t_command *cmd, t_envp *env)
 
 	in_fd = 0;
 	pid = -1;
+	fd[0] = -2;
+	fd[1] = -2;
 	pid_list = NULL;
 	process_heredoc(cmd, env);
 	while (cmd)

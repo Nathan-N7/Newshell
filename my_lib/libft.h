@@ -6,7 +6,7 @@
 /*   By: lbarreto <lbarreto@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 17:04:37 by natrodri          #+#    #+#             */
-/*   Updated: 2025/05/27 16:24:42 by lbarreto         ###   ########.fr       */
+/*   Updated: 2025/06/09 11:47:13 by lbarreto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,9 @@ int		ft_toupper(int c);
 int		ft_isalpha(int c);
 int		ft_memcmp(const void *s1, const void *s2, size_t n);
 int		ft_putnbr_fd(int nb, int fd);
-char	*ft_strjoin(char const *s1, char const *s2);
+char	*ft_strjoin(char *s1, char *s2);
+char	*ft_strconstjoin(char const *s1, char const *s2);
+char	*ft_strconcat(char *s1, char const *s2);
 char	*ft_strnstr(const char *big, const char *little, size_t len);
 size_t	ft_strlen(const char *str);
 int		ft_strcmp(const char *s1, const char *s2);

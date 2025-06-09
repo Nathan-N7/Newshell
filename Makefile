@@ -1,5 +1,7 @@
 NAME = minishell
+
 CC = cc
+
 FLAGS = -g -Wall -Werror -Wextra -Ilibs
 
 SRCS = \
@@ -48,7 +50,7 @@ $(LIBFT):
 	@make -C my_lib
 
 clean:
-	@rm -f $(OBJS)
+	@rm -rf $(OBJDIR)
 	@make -C my_lib clean
 
 fclean: clean
