@@ -46,7 +46,7 @@ void	free_env(char **envp)
 {
 	int	i;
 
-	if (!envp)
+	if (!*envp)
 		return ;
 	i = 0;
 	while (envp[i])
@@ -84,6 +84,8 @@ void	free_tokens(t_token *head)
 {
 	t_token	*tmp;
 
+	if (!head)
+		return ;
 	while (head)
 	{
 		tmp = head->next;

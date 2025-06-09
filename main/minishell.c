@@ -47,6 +47,20 @@ void	set_sig_exec(void)
 	signal(SIGQUIT, SIG_IGN);
 }
 
+int	trat_input(t_envp *env, char *input)
+{
+	if (g_signal == 130)
+	{
+		env->last_stats = g_signal;
+		g_signal = 0;
+	}
+	if (!input)
+		ft_exit(NULL, env);
+	if (*input)
+		add_history(input);
+	return (0);
+}
+
 int	main(int ac, char **av, char **envp)
 {
 	char		*input;
@@ -62,26 +76,16 @@ int	main(int ac, char **av, char **envp)
 	{
 		set_sig();
 		input = readline("\033[1;35m~sush$>\033[0m ");
-		if (g_signal == 130)
-		{
-			env.last_stats = g_signal;
-			g_signal = 0;
-		}
-		if (!input)
-		{
-			free(input);
+		if (trat_input(&env, input))
 			break ;
-		}
-		if (*input)
-			add_history(input);
 		root = parsing(input, &env);
 		if (root)
 		{
 			set_sig_exec();
 			my_pipe(root, &env);
+			free_commands(root);
 		}
-		free_commands(root);
-		free (input);
+		free(input);
 	}
-	return (free_env (env.envp), rl_clear_history(), 0);
+	return (free_env(env.envp), rl_clear_history(), 0);
 }

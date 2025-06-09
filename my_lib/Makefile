@@ -23,7 +23,7 @@ ft_isalpha.c  ft_memmove.c     ft_strdup.c      ft_strnstr.c \
 ft_isascii.c  ft_memset.c      ft_striteri.c    ft_strrchr.c \
 ft_isdigit.c  ft_putchar_fd.c  ft_strjoin.c     ft_strtrim.c ft_strndup.c \
 ft_strcmp.c	ft_printf_fd.c	ft_printf.c	ft_putchar.c	ft_putnbr.c \
-ft_putnbr_base.c	ft_putpointer.c		ft_putstr.c 	ft_strconstjoin.c \
+ft_putnbr_base.c	ft_putpointer.c		ft_putstr.c 	ft_strjoinfree.c \
 ft_strconcat.c
 
 BONUS_FCT = ft_lstnew.c ft_lstadd_front.c ft_lstsize.c ft_lstlast.c ft_lstadd_back.c ft_lstdelone.c ft_lstclear.c ft_lstiter.c ft_lstmap.c

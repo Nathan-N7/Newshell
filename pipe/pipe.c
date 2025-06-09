@@ -52,7 +52,7 @@ int	last_pid(t_pid *pid_list)
 	return (pid_list->pid);		
 }
 
-void	process_heredoc(t_command *cmd, t_envp *env)
+int	process_heredoc(t_command *cmd, t_envp *env)
 {
 	t_redirect *r;
 	int			i;
@@ -64,14 +64,19 @@ void	process_heredoc(t_command *cmd, t_envp *env)
 		{
 			r = &cmd->redirects[i];
 			if (r->type == HEREDOC)
-				handle_heredoc(r, env);
+				if (handle_heredoc(r, env) < 0)
+					return (-1);
 		}
 		cmd = cmd->next;
 	}
+	return (0);
 }
 
 void	son(int in_fd, int fd[2], t_command *cmd, t_envp *env)
 {
+	int rtrn;
+
+	rtrn = 0;
 	if (in_fd != 0)
 	{
 		dup2(in_fd, STDIN_FILENO);
@@ -89,13 +94,13 @@ void	son(int in_fd, int fd[2], t_command *cmd, t_envp *env)
 	if (cmd->args && cmd->args[0])
 	{
 		if (is_builtin(cmd))
-			exit (execute_builtin(env, cmd));
+			rtrn = execute_builtin(env, cmd);
 		else
 			execute_cmd(cmd, env);
 	}
 	free_commands(cmd);
 	free_env(env->envp);
-	exit (0);
+	exit (rtrn);
 }
 
 void	father(int *in_fd, int fd[2], t_command *cmd)
@@ -131,21 +136,41 @@ int	handle_child_and_parent(int *in_fd, int *fd, t_command **cmd, t_envp *env)
 	return (pid);
 }
 
+void	the_pid(t_envp *env, t_pid **pid_list)
+{
+	int		pid;
+	int		status;
+	t_pid	*temp_next;
+
+	pid = -1;
+	while (*pid_list)
+	{
+		pid = waitpid(-1, &status, 0);
+		if (last_pid(*pid_list) == pid)
+		{
+			if (WIFSIGNALED(status))
+				env->last_stats = WTERMSIG(status) + 128;
+			else if (WIFEXITED(status))
+				env->last_stats = WEXITSTATUS(status);
+		}
+		temp_next = (*pid_list)->next;
+		free(*pid_list);
+		*pid_list = temp_next;
+	}
+}
+
 void	my_pipe(t_command *cmd, t_envp *env)
 {
 	int		fd[2];
 	int		in_fd;
-	int		status;
-	pid_t	pid;
 	t_pid	*pid_list;
-	t_pid	*temp_next;
 
 	in_fd = 0;
-	pid = -1;
 	fd[0] = -2;
 	fd[1] = -2;
 	pid_list = NULL;
-	process_heredoc(cmd, env);
+	if (process_heredoc(cmd, env))
+		return ;
 	while (cmd)
 	{
 		if (builtin_father(cmd) && !cmd->next)
@@ -156,20 +181,7 @@ void	my_pipe(t_command *cmd, t_envp *env)
 		add_pid(&pid_list, handle_child_and_parent(&in_fd, fd, &cmd, env));
 		cmd = cmd->next;
 	}
-	while (pid_list)
-	{
-		pid = waitpid(-1, &status, 0);
-		if (last_pid(pid_list) == pid)
-		{
-			if (WIFSIGNALED(status))
-				env->last_stats = WTERMSIG(status) + 128;
-			else if (WIFEXITED(status))
-				env->last_stats = WEXITSTATUS(status);
-		}
-		temp_next = pid_list->next;
-		free(pid_list);
-		pid_list = temp_next;
-	}
+	the_pid(env, &pid_list);
 }
 /*[cmd1] ---stdout---> [pipe1] ---stdin---> [cmd2] ---stdout---> [pipe2] ---stdin---> [cmd3]
           	(fd[1])              (fd[0])         	 (fd[1])                fd[0])

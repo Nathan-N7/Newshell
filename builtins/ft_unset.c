@@ -17,18 +17,14 @@ int get_index(char **envp, char *key)
     return (-1);
 }
 
-char    **removed_var(char  **envp, char *var)
+char    **creat_env(char **envp, int idx)
 {
     int i;
     int j;
-    int idx;
-    char    **new_env;
+    char **new_env;
 
     i = -1;
     j = 0;
-    idx = get_index(envp, var);
-    if (idx == -1)
-        return (envp);
     while (envp[++i])
         ;
     new_env = malloc(sizeof(char *) * i);
@@ -45,26 +41,20 @@ char    **removed_var(char  **envp, char *var)
         new_env[j++] = envp[i];
     }
     new_env[j] = NULL;
-    free(envp);
     return (new_env);
 }
 
-int verify_var_unset(char *str)
+char    **removed_var(char  **envp, char *var)
 {
-    int i;
+    int idx;
+    char    **new_env;
 
-    if (!str || !str[0])
-        return (0);
-    if (!ft_isalpha(str[0]) && str[0] != '_')
-        return (0);
-    i = 1;
-    while (str[i])
-    {
-        if (!ft_isalnum(str[i]) && str[i] != '_')
-            return (0);
-        i++;
-    }
-    return (1);
+    idx = get_index(envp, var);
+    if (idx == -1)
+        return (envp);
+    new_env = creat_env(envp, idx);
+    free(envp);
+    return (new_env);
 }
 
 int ft_unset(char **args, t_envp *env)

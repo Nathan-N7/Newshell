@@ -23,12 +23,19 @@ int is_numeric(char *str)
 void ft_exit(char **args, t_envp *env)
 {
 	write(1, "exit\n", 5);
+	if (!args)
+	{
+		env->last_stats = 0;
+		free_env(env->envp);
+		exit (0);
+	}
 	if (args[1])
 	{
 		if (!is_numeric(args[1]))
 		{
 			my_printf_fd("minishell: exit: %s: numeric argument required\n", 2, args[1]);
 			env->last_stats = 2;
+			free_env(env->envp);
 			exit(2);
 		}
 		else if (args[2])
@@ -38,8 +45,10 @@ void ft_exit(char **args, t_envp *env)
 			return ;
 		}
 		env->last_stats = (unsigned char)ft_atoi(args[1]);
+		free_env(env->envp);
 		exit(env->last_stats);
 	}
 	env->last_stats = 0;
+	free_env(env->envp);
 	exit(0);
 }
