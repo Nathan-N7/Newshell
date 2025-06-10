@@ -42,6 +42,21 @@ char **clone_env(char **envp)
     return (copy);
 }
 
+void	free_env(char **envp)
+{
+	int	i;
+
+	if (!*envp)
+		return ;
+	i = 0;
+	while (envp[i])
+	{
+		free(envp[i]);
+		i++;
+	}
+	free(envp);
+}
+
 char	*strip_aspas(char *str)
 {
 	int		i;
@@ -69,6 +84,8 @@ void	free_tokens(t_token *head)
 {
 	t_token	*tmp;
 
+	if (!head)
+		return ;
 	while (head)
 	{
 		tmp = head->next;

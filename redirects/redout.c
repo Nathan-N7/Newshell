@@ -26,7 +26,7 @@ void file_exists_redout(char *pathname, int *error_flag)
 void new_file_redout(char *pathname)
 {
 	int fd;
-    
+
     fd = open(pathname, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	dup2(fd, STDOUT_FILENO);
 	close(fd);

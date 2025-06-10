@@ -6,7 +6,7 @@
 /*   By: lbarreto <lbarreto@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 11:27:51 by natrodri          #+#    #+#             */
-/*   Updated: 2025/05/27 20:06:23 by lbarreto         ###   ########.fr       */
+/*   Updated: 2025/06/09 11:38:16 by lbarreto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,37 +14,69 @@
 #include "../my_lib/libft.h"
 #include "../libs/structs.h"
 
-void	execute_cmd(t_command *cmd, t_envp *env)
+void	add_pid(t_pid **head, int new)
 {
-	char	*expand;
-	char	**path;
-	int		i;
-	char	*join;
-	char	*tmp;
+	t_pid	*tmp;
+	t_pid	*new_pid;
 
-	i = 0;
-	expand = expand_var("$PATH", env);
-	path = ft_split(expand, ':');
-	while (path[i])
+	new_pid = (t_pid *)ft_calloc(sizeof(t_pid), 1);
+	new_pid->pid = new;
+	new_pid->next = NULL;
+	if (!*head)
 	{
-		join = ft_strjoin(path[i], "/");
-		tmp = join;
-		join = ft_strjoin(tmp, cmd->args[0]);
-		free(tmp);
-		if (access(join, F_OK && X_OK) == 0)
-		{
-			if (execve(join, cmd->args, env->envp) < 0)
-				error_pipe(join, exec);
-		}
-		free(join);
-		i++;
+		*head = new_pid;
+		return ;
 	}
-	printf("%s: command not found\n", cmd->args[0]);
-	exit (1);
+	tmp = *head;
+	while (tmp->next)
+		tmp = tmp->next;
+	tmp->next = new_pid;
+}
+
+void	delete_pid(t_pid **head)
+{
+	t_pid	*temp_next;
+
+	while (*head)
+	{
+		temp_next = (*head)->next;
+		free(*head);
+		(*head) = temp_next;
+	}
+}
+
+int	last_pid(t_pid *pid_list)
+{
+	while (pid_list->next != NULL)
+		pid_list = pid_list->next;
+	return (pid_list->pid);		
+}
+
+int	process_heredoc(t_command *cmd, t_envp *env)
+{
+	t_redirect *r;
+	int			i;
+
+	while (cmd)
+	{
+		i = -1;
+		while (++i < cmd->redirect_count)
+		{
+			r = &cmd->redirects[i];
+			if (r->type == HEREDOC)
+				if (handle_heredoc(r, env) < 0)
+					return (-1);
+		}
+		cmd = cmd->next;
+	}
+	return (0);
 }
 
 void	son(int in_fd, int fd[2], t_command *cmd, t_envp *env)
 {
+	int rtrn;
+
+	rtrn = 0;
 	if (in_fd != 0)
 	{
 		dup2(in_fd, STDIN_FILENO);
@@ -57,17 +89,18 @@ void	son(int in_fd, int fd[2], t_command *cmd, t_envp *env)
 		close(fd[1]);
 	}
 	if (cmd->redirect_count > 0)
-		if (handle_redirects(cmd, env->envp) < 0)
+		if (handle_redirects(cmd, env) < 0)
 			exit (1);
 	if (cmd->args && cmd->args[0])
 	{
 		if (is_builtin(cmd))
-			execute_builtin(env, cmd);
+			rtrn = execute_builtin(env, cmd);
 		else
 			execute_cmd(cmd, env);
 	}
 	free_commands(cmd);
-	exit (0);
+	free_env(env->envp);
+	exit (rtrn);
 }
 
 void	father(int *in_fd, int fd[2], t_command *cmd)
@@ -84,16 +117,60 @@ void	father(int *in_fd, int fd[2], t_command *cmd)
 			close(fd[0]);
 }
 
+int	handle_child_and_parent(int *in_fd, int *fd, t_command **cmd, t_envp *env)
+{
+	pid_t	pid;
+
+	if ((*cmd)->next && pipe(fd) == -1)
+	{
+		perror("pipe");
+		exit(1);
+	}
+	pid = fork();
+	if (pid == -1)
+		error_pipe(NULL, pid);
+	if (pid == 0)
+		son(*in_fd, fd, *cmd, env);
+	else
+		father(in_fd, fd, *cmd);
+	return (pid);
+}
+
+void	the_pid(t_envp *env, t_pid **pid_list)
+{
+	int		pid;
+	int		status;
+	t_pid	*temp_next;
+
+	pid = -1;
+	while (*pid_list)
+	{
+		pid = waitpid(-1, &status, 0);
+		if (last_pid(*pid_list) == pid)
+		{
+			if (WIFSIGNALED(status))
+				env->last_stats = WTERMSIG(status) + 128;
+			else if (WIFEXITED(status))
+				env->last_stats = WEXITSTATUS(status);
+		}
+		temp_next = (*pid_list)->next;
+		free(*pid_list);
+		*pid_list = temp_next;
+	}
+}
+
 void	my_pipe(t_command *cmd, t_envp *env)
 {
 	int		fd[2];
 	int		in_fd;
-	int		status;
-	pid_t	pid;
+	t_pid	*pid_list;
 
 	in_fd = 0;
-	fd[0] = -1;
-	fd[1] = -1;
+	fd[0] = -2;
+	fd[1] = -2;
+	pid_list = NULL;
+	if (process_heredoc(cmd, env))
+		return ;
 	while (cmd)
 	{
 		if (builtin_father(cmd) && !cmd->next)
@@ -101,28 +178,10 @@ void	my_pipe(t_command *cmd, t_envp *env)
 			env->last_stats = execute_builtin(env, cmd);
 			break ;
 		}
-		if (cmd->next && pipe(fd) == -1)
-		{
-			perror("pipe");
-			exit(1);
-		}
-		pid = fork();
-		if (pid == -1)
-			error_pipe(NULL, pid);
-		if (pid == 0)
-			son(in_fd, fd, cmd, env);
-		else
-			father(&in_fd, fd, cmd);
+		add_pid(&pid_list, handle_child_and_parent(&in_fd, fd, &cmd, env));
 		cmd = cmd->next;
 	}
-
-	while (waitpid(-1, &status, 0) > 0)
-	{
-		if (WIFEXITED(status))
-			env->last_stats = WEXITSTATUS(status);
-		else
-			env->last_stats = 1;
-	}
+	the_pid(env, &pid_list);
 }
 /*[cmd1] ---stdout---> [pipe1] ---stdin---> [cmd2] ---stdout---> [pipe2] ---stdin---> [cmd3]
           	(fd[1])              (fd[0])         	 (fd[1])                fd[0])

@@ -26,13 +26,21 @@ typedef enum e_tk_type
 typedef enum e_op
 {
 	exec,
-	pid
+	pid,
+	not_found
 }	t_op;
+
+typedef struct s_pid
+{
+	int				pid;
+	struct s_pid	*next;
+}	t_pid;
 
 typedef struct s_redirect
 {
 	t_tk_type	type;
 	char		*filename;
+	int			fd;
 }	t_redirect;
 
 typedef struct s_command
@@ -40,22 +48,20 @@ typedef struct s_command
 	char				**args;
 	t_redirect			*redirects;
 	int					redirect_count;
-	int					in_fd;
 	struct s_command	*next;
 }	t_command;
 
 typedef struct s_indexvar
 {
-	int	i;
-	int	k;
-	int	j;
-	int	m;
+	int	src;
+	int	val;
+	int	buff;
+	int	var;
 }	t_indexvar;
 
 typedef struct s_expand
 {
 	char		*src;
-	t_indexvar	*idx;
 	char		*buffer;
 	char		*varname;
 }	t_expand;

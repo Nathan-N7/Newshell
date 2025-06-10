@@ -47,6 +47,34 @@ int verify_var(char *str)
     return (1);
 }
 
+void    print_order(t_envp *env)
+{
+    char    **order;
+    char    *tmp;
+    int     len;
+    int     k;
+
+    order = clone_env(env->envp);
+    len = 0;
+    while (order[len])
+        len++;
+    k = -1;
+    while (++k + 1 < len)
+    {
+        if (order[k] && order[k + 1] && ft_strcmp(order[k], order[k + 1]) > 0)
+        {
+            tmp = order[k];
+            order[k] = order[k + 1];
+            order[k + 1] = tmp;
+            k = -1;
+        }
+    }
+    k = -1;
+    while (order[++k] && k < len)
+        printf("declare -x %s\n", order[k]);
+    free_env (order);
+}
+
 int    ft_export(char **args, t_envp *env)
 {
     int     i;
@@ -56,11 +84,7 @@ int    ft_export(char **args, t_envp *env)
     i = -1;
     rtrn = 0;
     if (!args[1])
-    {
-        while (env->envp[++i])
-            printf("declare -x %s\n", env->envp[i]);
-        return (0);
-    }
+        return (print_order(env), 0);
     while (args[++i])
     {
         if (!verify_var(args[i]))
