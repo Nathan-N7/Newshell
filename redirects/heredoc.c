@@ -27,7 +27,7 @@ void	handle_heredoc_son(t_redirect *redir, t_envp *env, int write_fd, int read_f
 			free(rline);
 			break ;
 		}
-		e_rline = get_value(rline, env->envp);
+		e_rline = expand_var(rline, env);
 		my_printf_fd("%s\n", write_fd, e_rline);
 		free(rline);
 		free(e_rline);
@@ -37,7 +37,7 @@ void	handle_heredoc_son(t_redirect *redir, t_envp *env, int write_fd, int read_f
 	close(write_fd);
 }
 
-int  handle_heredoc(t_redirect *redir, t_envp *env)
+int  handle_heredoc(t_redirect *redir, t_envp *env, t_command *cmd)
 {
 	int	pid;
 	int	pipefd[2];
@@ -47,8 +47,9 @@ int  handle_heredoc(t_redirect *redir, t_envp *env)
 	pid = fork();
 	if (pid == 0)
 	{
-		signal(SIGINT, SIG_DFL);
+		close(pipefd[0]);
 		handle_heredoc_son(redir, env, pipefd[1], pipefd[0]);
+		free_commands(cmd);
 		exit (0);
 	}
 	close(pipefd[1]);

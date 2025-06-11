@@ -61,7 +61,7 @@ int         ft_unset(char **args, t_envp *env);
 void        ft_exit(char **args, t_envp *env);
 int         builtin_father(t_command *cmd);
 int         isdirectory(const char *pathname);
-int        handle_heredoc(t_redirect *redir, t_envp *env);
+int        handle_heredoc(t_redirect *redir, t_envp *env, t_command *cmd);
 void        handle_append(t_redirect *redir, int *error_flag, char **envp);
 void        handle_redin(t_redirect *redir, int *error_flag, char **envp);
 char        *create_pathname(const char *filename, char **envp);
@@ -78,6 +78,5 @@ int	        redirect_analysis(t_token *token, t_envp *env);
 int	        pipe_analysis(t_token *token, t_envp *env);
 void	    execute_cmd(t_command *cmd, t_envp *env);
 void	    add_pid(t_pid **head, int new);
-int handle_heredoc_inline(t_redirect *r);
 
 #endif

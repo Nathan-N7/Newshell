@@ -64,8 +64,10 @@ int	process_heredoc(t_command *cmd, t_envp *env)
 		{
 			r = &cmd->redirects[i];
 			if (r->type == HEREDOC)
-				if (handle_heredoc(r, env) < 0)
+			{
+				if (handle_heredoc(r, env, cmd) < 0)
 					return (-1);
+			}
 		}
 		cmd = cmd->next;
 	}
@@ -110,6 +112,16 @@ void	son(int in_fd, int fd[2], t_command *cmd, t_envp *env)
 
 void	father(int *in_fd, int fd[2], t_command *cmd)
 {
+	int	i;
+	t_redirect	*r;
+
+	i = -1;
+	while (++i < cmd->redirect_count)
+	{
+		r = &cmd->redirects[i];
+		if (r->type == HEREDOC)
+			close(r->fd);
+	}
 	if (*in_fd != 0)
 		close(*in_fd);
 	if (cmd->next)

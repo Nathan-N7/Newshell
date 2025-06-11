@@ -20,6 +20,22 @@ int is_numeric(char *str)
     return (1);
 }
 
+void	set_error(char *args, t_envp *env, t_op op)
+{
+	if (op == num)
+	{
+		my_printf_fd("minishell: exit: %s: numeric argument required\n", 2, args);
+		env->last_stats = 2;
+		free_env(env->envp);
+		exit(2);
+	}
+	else if (op == arg)
+	{
+		my_printf_fd("minishell: exit: too many arguments\n", 2);
+		env->last_stats = 1;
+	}
+}
+
 void ft_exit(char **args, t_envp *env)
 {
 	write(1, "exit\n", 5);
@@ -32,16 +48,10 @@ void ft_exit(char **args, t_envp *env)
 	if (args[1])
 	{
 		if (!is_numeric(args[1]))
-		{
-			my_printf_fd("minishell: exit: %s: numeric argument required\n", 2, args[1]);
-			env->last_stats = 2;
-			free_env(env->envp);
-			exit(2);
-		}
+			set_error(args[1], env, num);
 		else if (args[2])
 		{
-			my_printf_fd("minishell: exit: too many arguments\n", 2);
-			env->last_stats = 1;
+			set_error(args[2], env, arg);
 			return ;
 		}
 		env->last_stats = (unsigned char)ft_atoi(args[1]);

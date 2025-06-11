@@ -32,11 +32,21 @@ static void	exec_direct_path(t_command *cmd, t_envp *env)
 		exit(126);
 	}
 	execve(cmd->args[0], cmd->args, env->envp);
-	// Se execve retornar, erro inesperado
 	my_printf_fd("%s: execve failed\n", 2, cmd->args[0]);
 	free_commands(cmd);
 	free_env(env->envp);
 	exit(126);
+}
+
+static void try_exec(char *join, char **path, t_command *cmd, t_envp *env)
+{
+    execve(join, cmd->args, env->envp);
+    my_printf_fd("%s: command not found\n", 2, cmd->args[0]);
+    ft_free_split(path);
+    free(join);
+    free_commands(cmd);
+    free_env(env->envp);
+    exit(127);
 }
 
 static void	exec_from_path(t_command *cmd, t_envp *env)
@@ -59,20 +69,11 @@ static void	exec_from_path(t_command *cmd, t_envp *env)
 		join = ft_strjoin(tmp, cmd->args[0]);
 		free(tmp);
 		if (access(join, F_OK | X_OK) == 0)
-		{
-			execve(join, cmd->args, env->envp);
-			my_printf_fd("%s: execve failed\n", 2, join);
-			ft_free_split(path);
-			free(join);
-			free_commands(cmd);
-			free_env(env->envp);
-			exit(126);
-		}
+            try_exec(join, path, cmd, env);
 		free(join);
 		i++;
 	}
 	ft_free_split(path);
-	// Não encontrou executável no PATH, retorna ao chamador para tratar
 }
 
 void	execute_cmd(t_command *cmd, t_envp *env)

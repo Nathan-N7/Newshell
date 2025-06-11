@@ -27,7 +27,9 @@ typedef enum e_op
 {
 	exec,
 	pid,
-	not_found
+	not_found,
+	arg,
+	num
 }	t_op;
 
 typedef struct s_pid
