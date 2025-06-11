@@ -14,15 +14,29 @@
 #include "../my_lib/libft.h"
 #include "../libs/structs.h"
 
+
 static void	exec_direct_path(t_command *cmd, t_envp *env)
 {
-	if (access(cmd->args[0], F_OK | X_OK) == 0)
+	if (access(cmd->args[0], F_OK) != 0)
 	{
-		if (execve(cmd->args[0], cmd->args, env->envp))
-			error_pipe(cmd->args[0], exec);
+		my_printf_fd("%s: No such file or directory\n", 2, cmd->args[0]);
+		free_commands(cmd);
+		free_env(env->envp);
+		exit(127);
 	}
-	else
-		error_pipe(cmd->args[0], exec);
+	if (access(cmd->args[0], X_OK) != 0)
+	{
+		my_printf_fd("%s: Permission denied\n", 2, cmd->args[0]);
+		free_commands(cmd);
+		free_env(env->envp);
+		exit(126);
+	}
+	execve(cmd->args[0], cmd->args, env->envp);
+	// Se execve retornar, erro inesperado
+	my_printf_fd("%s: execve failed\n", 2, cmd->args[0]);
+	free_commands(cmd);
+	free_env(env->envp);
+	exit(126);
 }
 
 static void	exec_from_path(t_command *cmd, t_envp *env)
@@ -45,12 +59,20 @@ static void	exec_from_path(t_command *cmd, t_envp *env)
 		join = ft_strjoin(tmp, cmd->args[0]);
 		free(tmp);
 		if (access(join, F_OK | X_OK) == 0)
-			if (execve(join, cmd->args, env->envp) < 0)
-				error_pipe(join, exec);
+		{
+			execve(join, cmd->args, env->envp);
+			my_printf_fd("%s: execve failed\n", 2, join);
+			ft_free_split(path);
+			free(join);
+			free_commands(cmd);
+			free_env(env->envp);
+			exit(126);
+		}
 		free(join);
 		i++;
 	}
 	ft_free_split(path);
+	// Não encontrou executável no PATH, retorna ao chamador para tratar
 }
 
 void	execute_cmd(t_command *cmd, t_envp *env)
@@ -59,5 +81,7 @@ void	execute_cmd(t_command *cmd, t_envp *env)
 		exec_direct_path(cmd, env);
 	exec_from_path(cmd, env);
 	my_printf_fd("%s: command not found\n", 2, cmd->args[0]);
+	free_commands(cmd);
+	free_env(env->envp);
 	exit (127);
 }

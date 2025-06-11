@@ -89,8 +89,13 @@ void	son(int in_fd, int fd[2], t_command *cmd, t_envp *env)
 		close(fd[1]);
 	}
 	if (cmd->redirect_count > 0)
-		if (handle_redirects(cmd, env) < 0)
-			exit (1);
+		rtrn = handle_redirects(cmd, env);
+	if (rtrn < 0)
+	{
+		free_commands(cmd);
+		free_env(env->envp);
+		exit (rtrn);
+	}
 	if (cmd->args && cmd->args[0])
 	{
 		if (is_builtin(cmd))

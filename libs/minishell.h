@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
+# ifndef MINISHELL_H
 # define MINISHELL_H
 
 # define TRUE 1
@@ -61,7 +61,7 @@ int         ft_unset(char **args, t_envp *env);
 void        ft_exit(char **args, t_envp *env);
 int         builtin_father(t_command *cmd);
 int         isdirectory(const char *pathname);
-int         handle_heredoc(t_redirect *redir, t_envp *env);
+int        handle_heredoc(t_redirect *redir, t_envp *env);
 void        handle_append(t_redirect *redir, int *error_flag, char **envp);
 void        handle_redin(t_redirect *redir, int *error_flag, char **envp);
 char        *create_pathname(const char *filename, char **envp);
@@ -72,12 +72,12 @@ void	    free_env(char **envp);
 void	    ft_free_split(char **split);
 void	    count_args_redirs(t_token *tok, int *arg_count, int *redir_count);
 void    	handle_sig(int sig);
-void	    handle_heredoc_son(t_redirect *redir, t_envp *env, int write_fd);
 void    	set_sig_exec(void);
 int 	    syntax_analyzer(t_token *token, t_envp *env);
 int	        redirect_analysis(t_token *token, t_envp *env);
 int	        pipe_analysis(t_token *token, t_envp *env);
 void	    execute_cmd(t_command *cmd, t_envp *env);
 void	    add_pid(t_pid **head, int new);
+int handle_heredoc_inline(t_redirect *r);
 
 #endif
