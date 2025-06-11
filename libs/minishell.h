@@ -48,7 +48,7 @@ int			handle_pipe(t_command **cmd, t_token **tok, int *count);
 void		free_commands(t_command *cmd);
 char		*get_value(char *name, char **envp);
 char	    *expand_var(char *src, t_envp *env);
-void	    my_pipe(t_command *cmd, t_envp *env);
+int 	    my_pipe(t_command *cmd, t_envp *env);
 int         is_builtin(t_command *cmd);
 void	    error_pipe(char *join, t_op	op);
 int         ft_pwd();

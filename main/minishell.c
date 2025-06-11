@@ -66,6 +66,7 @@ int	main(int ac, char **av, char **envp)
 	char		*input;
 	t_envp		env;
 	t_command	*root;
+	int			resul;
 
 	(void)av;
 	if (ac != 1)
@@ -82,7 +83,9 @@ int	main(int ac, char **av, char **envp)
 		if (root)
 		{
 			set_sig_exec();
-			my_pipe(root, &env);
+			resul = my_pipe(root, &env);
+			if (resul != 0)
+				env.last_stats = resul;
 			free_commands(root);
 		}
 		free(input);

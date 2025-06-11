@@ -67,6 +67,10 @@ int	process_heredoc(t_command *cmd, t_envp *env)
 			{
 				if (handle_heredoc(r, env, cmd) < 0)
 					return (-1);
+				if (i + 1 != cmd->redirect_count)
+					close(r->fd);
+				else if (env->last_stats == 130)
+					return (-2);
 			}
 		}
 		cmd = cmd->next;
@@ -120,7 +124,10 @@ void	father(int *in_fd, int fd[2], t_command *cmd)
 	{
 		r = &cmd->redirects[i];
 		if (r->type == HEREDOC)
+		{
+			my_printf("heredoc fd: %d\n", r->fd);
 			close(r->fd);
+		}
 	}
 	if (*in_fd != 0)
 		close(*in_fd);
@@ -176,18 +183,25 @@ void	the_pid(t_envp *env, t_pid **pid_list)
 	}
 }
 
-void	my_pipe(t_command *cmd, t_envp *env)
+int	my_pipe(t_command *cmd, t_envp *env)
 {
 	int		fd[2];
 	int		in_fd;
 	t_pid	*pid_list;
+	int		result;
 
 	in_fd = 0;
 	fd[0] = -2;
 	fd[1] = -2;
 	pid_list = NULL;
-	if (process_heredoc(cmd, env))
-		return ;
+	result = process_heredoc(cmd, env);
+	if (result == -1)
+	{
+		env->last_stats = 1;
+		return (env->last_stats);
+	}
+	// if (result == -2)
+	// 	env->last_stats = 130;
 	while (cmd)
 	{
 		if (builtin_father(cmd) && !cmd->next)
@@ -199,6 +213,7 @@ void	my_pipe(t_command *cmd, t_envp *env)
 		cmd = cmd->next;
 	}
 	the_pid(env, &pid_list);
+	return (0);
 }
 /*[cmd1] ---stdout---> [pipe1] ---stdin---> [cmd2] ---stdout---> [pipe2] ---stdin---> [cmd3]
           	(fd[1])              (fd[0])         	 (fd[1])                fd[0])

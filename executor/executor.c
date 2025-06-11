@@ -32,7 +32,7 @@ static void	exec_direct_path(t_command *cmd, t_envp *env)
 		exit(126);
 	}
 	execve(cmd->args[0], cmd->args, env->envp);
-	my_printf_fd("%s: execve failed\n", 2, cmd->args[0]);
+	my_printf_fd("%s: command not found\n", 2, cmd->args[0]);
 	free_commands(cmd);
 	free_env(env->envp);
 	exit(126);
