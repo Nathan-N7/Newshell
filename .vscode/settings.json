@@ -1,7 +1,0 @@
-{
-    "files.associations": {
-        "structs.h": "c",
-        "libft.h": "c",
-        "ranges": "c"
-    }
-}
