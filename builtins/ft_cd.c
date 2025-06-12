@@ -55,40 +55,25 @@ int ft_cd(char *path, t_envp *env)
     }
     if (tratative(path))
         return (1);
-
-    // pega o PWD atual de forma segura
     path_old = getcwd(NULL, 0);
     if (!path_old)
-        path_old = expand_var("$PWD", env); // lógica do Bash
-
-    // tenta entrar no novo diretório
+        path_old = expand_var("$PWD", env);
     if (chdir(path) != 0)
     {
         free(path_old);
         perror("cd");
         return (1);
     }
-
-    // tenta pegar o novo diretório real
     path_pwd = getcwd(NULL, 0);
-
-    // Atualiza OLDPWD sempre
     if (path_old)
         set_path(env->envp, path_old, "OLDPWD");
-
-    // Se getcwd falhar (diretório órfão), mantém PWD anterior
     if (!path_pwd)
     {
         my_printf_fd("minishell: cd: error retrieving current directory: ", 2);
-        perror(""); // imprime erro do sistema
-        // não atualiza PWD
+        perror("");
     }
     else
-    {
-        // Atualiza PWD apenas se getcwd conseguir
         set_path(env->envp, path_pwd, "PWD");
-    }
-
     free(path_old);
     free(path_pwd);
     return (0);
