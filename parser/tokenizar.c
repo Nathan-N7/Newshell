@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizar.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lbarreto <lbarreto@student.42.rio>         +#+  +:+       +#+        */
+/*   By: natrodri <natrodri@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 12:39:02 by natrodri          #+#    #+#             */
-/*   Updated: 2025/06/05 20:10:05 by lbarreto         ###   ########.fr       */
+/*   Updated: 2025/06/12 15:39:08 by natrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../libs/minishell.h"
-#include "../my_lib/libft.h"
 #include "../libs/structs.h"
+#include "../my_lib/libft.h"
 
 t_token	*new_token(t_tk_type type, char *value)
 {

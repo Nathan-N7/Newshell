@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_ps1.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: natrodri <natrodri@student.42.fr>          +#+  +:+       +#+        */
+/*   By: natrodri <natrodri@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 10:44:47 by natrodri          #+#    #+#             */
-/*   Updated: 2025/05/08 12:32:52 by natrodri         ###   ########.fr       */
+/*   Updated: 2025/06/12 16:08:31 by natrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,14 +32,16 @@ int	handle_redir(t_command *cmd, t_token **tok)
 	if (!(*tok)->next || (*tok)->next->type != WORD)
 	{
 		if ((*tok)->next)
-			my_printf_fd("bash: erro de sintaxe próximo ao token inesperado `%s'\n", 2, (*tok)->next->value);
+			my_printf_fd("bash: erro de sintaxe próximo ao token inesp\
+erado `%s'\n", 2, (*tok)->next->value);
 		else
-			my_printf_fd("bash: erro de sintaxe próximo ao token inesperado `newline'\n", 2);
+			my_printf_fd("bash: erro de sintaxe próximo ao token inesp\
+erado `newline'\n", 2);
 		return (0);
 	}
 	cmd->redirects[cmd->redirect_count].type = (*tok)->type;
-	cmd->redirects[cmd->redirect_count].filename
-		= ft_strdup((*tok)->next->value);
+	cmd->redirects[cmd->redirect_count].filename = \
+	ft_strdup((*tok)->next->value);
 	cmd->redirect_count++;
 	*tok = (*tok)->next;
 	return (1);

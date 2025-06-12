@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lbarreto <lbarreto@student.42.rio>         +#+  +:+       +#+        */
+/*   By: natrodri <natrodri@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 14:55:30 by natrodri          #+#    #+#             */
-/*   Updated: 2025/06/05 21:39:31 by lbarreto         ###   ########.fr       */
+/*   Updated: 2025/06/12 15:54:44 by natrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,7 @@ void	print_tokens(t_token *tokens)
 }*/
 
 t_command	*new_command(t_token *tok, t_command **head)
-{
-	
+{	
 	int			arg_count;
 	int			redir_count;
 	t_command	*new;

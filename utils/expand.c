@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lbarreto <lbarreto@student.42.rio>         +#+  +:+       +#+        */
+/*   By: natrodri <natrodri@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 10:48:05 by natrodri          #+#    #+#             */
-/*   Updated: 2025/05/27 19:29:46 by lbarreto         ###   ########.fr       */
+/*   Updated: 2025/06/12 16:07:16 by natrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,71 +14,72 @@
 #include "../libs/structs.h"
 #include "../my_lib/libft.h"
 
-void handle_variable(t_expand *str, t_indexvar *index, t_envp *env)
+void	handle_variable(t_expand *str, t_indexvar *index, t_envp *env)
 {
-    char *value;
+	char	*value;
 
-    index->src++;
-    index->var = 0;
-    if (str->src[index->src] == '?')
-    {
-        value = ft_itoa(env->last_stats);
-        while (value[index->var])
-            str->buffer[index->buff++] = value[index->var++];
-        free(value);
-        index->src++;
-        return ;
-    }
-    while (str->src[index->src] &&
-           (ft_isalnum(str->src[index->src]) || str->src[index->src] == '_'))
-        str->varname[index->var++] = str->src[index->src++];
-    str->varname[index->var] = '\0';
-    value = get_value(str->varname, env->envp);
-    if (!value)
-        value = ft_strdup("");
-    index->val = 0;
-    while (value[index->val])
-        str->buffer[index->buff++] = value[index->val++];
-    free(value);
+	index->src++;
+	index->var = 0;
+	if (str->src[index->src] == '?')
+	{
+		value = ft_itoa(env->last_stats);
+		while (value[index->var])
+			str->buffer[index->buff++] = value[index->var++];
+		free(value);
+		index->src++;
+		return ;
+	}
+	while (str->src[index->src] \
+	&& (ft_isalnum(str->src[index->src]) || str->src[index->src] == '_'))
+		str->varname[index->var++] = str->src[index->src++];
+	str->varname[index->var] = '\0';
+	value = get_value(str->varname, env->envp);
+	if (!value)
+		value = ft_strdup("");
+	index->val = 0;
+	while (value[index->val])
+		str->buffer[index->buff++] = value[index->val++];
+	free(value);
 }
 
-void handle_single_quote(t_expand *str, t_indexvar *index)
+void	handle_single_quote(t_expand *str, t_indexvar *index)
 {
-    index->src++;
-    while (str->src[index->src] && str->src[index->src] != '\'')
-        str->buffer[index->buff++] = str->src[index->src++];
-    if (str->src[index->src] == '\'')
-        index->src++;
+	index->src++;
+	while (str->src[index->src] && str->src[index->src] != '\'')
+		str->buffer[index->buff++] = str->src[index->src++];
+	if (str->src[index->src] == '\'')
+		index->src++;
 }
 
-void handle_double_quote(t_expand *str, t_indexvar *index, t_envp *env)
+void	handle_double_quote(t_expand *str, t_indexvar *index, t_envp *env)
 {
-    index->src++;
-    while (str->src[index->src] && str->src[index->src] != '\"')
-    {
-        if (str->src[index->src] == '$' &&
-            (ft_isalnum(str->src[index->src + 1]) || str->src[index->src + 1] == '_'))
-            handle_variable(str, index, env);
-        else
-            str->buffer[index->buff++] = str->src[index->src++];
-    }
-    if (str->src[index->src] == '\"')
-        index->src++;
+	index->src++;
+	while (str->src[index->src] && str->src[index->src] != '\"')
+	{
+		if (str->src[index->src] == '$' \
+		&& (ft_isalnum(str->src[index->src + 1]) \
+		|| str->src[index->src + 1] == '_'))
+			handle_variable(str, index, env);
+		else
+			str->buffer[index->buff++] = str->src[index->src++];
+	}
+	if (str->src[index->src] == '\"')
+		index->src++;
 }
 
-void process_char(t_expand *str, t_indexvar *index, t_envp *env)
+void	process_char(t_expand *str, t_indexvar *index, t_envp *env)
 {
-    if (str->src[index->src] == '\'')
-        handle_single_quote(str, index);
-    else if (str->src[index->src] == '\"')
-        handle_double_quote(str, index, env);
-	else if (str->src[index->src] == '$' &&
-         (ft_isalnum(str->src[index->src + 1]) || 
-          str->src[index->src + 1] == '_' || 
-          str->src[index->src + 1] == '?'))
-        handle_variable(str, index, env);
-    else
-        str->buffer[index->buff++] = str->src[index->src++];
+	if (str->src[index->src] == '\'')
+		handle_single_quote(str, index);
+	else if (str->src[index->src] == '\"')
+		handle_double_quote(str, index, env);
+	else if (str->src[index->src] == '$' \
+	&& (ft_isalnum(str->src[index->src + 1]) \
+	|| str->src[index->src + 1] == '_' \
+	|| str->src[index->src + 1] == '?'))
+		handle_variable(str, index, env);
+	else
+		str->buffer[index->buff++] = str->src[index->src++];
 }
 
 char	*expand_var(char *src, t_envp *env)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_toke.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: natrodri <natrodri@student.42.fr>          +#+  +:+       +#+        */
+/*   By: natrodri <natrodri@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 10:43:30 by natrodri          #+#    #+#             */
-/*   Updated: 2025/05/08 12:33:46 by natrodri         ###   ########.fr       */
+/*   Updated: 2025/06/12 15:40:29 by natrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,30 +16,31 @@
 
 int	ft_isspace(char c)
 {
-	if (c == ' ' || c == '\t' || c == '\n' || c == '\v'
-		|| c == '\r' || c == '\f')
+	if (c == ' ' || c == '\t' || c == '\n' || c == '\v' || c == '\r'
+		|| c == '\f')
 		return (1);
 	return (0);
 }
 
-char **clone_env(char **envp)
+char	**clone_env(char **envp)
 {
-    int i = 0;
-    char **copy;
+	int		i;
+	char	**copy;
 
-    while (envp[i])
-        i++;
-    copy = malloc(sizeof(char *) * (i + 1));
-    if (!copy)
-        return (NULL);
-    i = 0;
-    while (envp[i])
-    {
-        copy[i] = ft_strdup(envp[i]);
-        i++;
-    }
-    copy[i] = NULL;
-    return (copy);
+	i = 0;
+	while (envp[i])
+		i++;
+	copy = malloc(sizeof(char *) * (i + 1));
+	if (!copy)
+		return (NULL);
+	i = 0;
+	while (envp[i])
+	{
+		copy[i] = ft_strdup(envp[i]);
+		i++;
+	}
+	copy[i] = NULL;
+	return (copy);
 }
 
 void	free_env(char **envp)

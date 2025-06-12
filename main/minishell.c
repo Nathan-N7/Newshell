@@ -3,51 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lbarreto <lbarreto@student.42.rio>         +#+  +:+       +#+        */
+/*   By: natrodri <natrodri@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 10:40:16 by natrodri          #+#    #+#             */
-/*   Updated: 2025/05/27 16:27:33 by lbarreto         ###   ########.fr       */
+/*   Updated: 2025/06/12 15:52:13 by natrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../libs/minishell.h"
-#include "../my_lib/libft.h"
 #include "../libs/structs.h"
+#include "../my_lib/libft.h"
 
-int g_signal = 0;
+int			g_signal = 0;
 
-void	handle_sig(int sig)
-{
-	(void)sig;
-
-	write(1, "\n", 1);
-	rl_replace_line("", 0);
-	rl_on_new_line();
-	rl_redisplay();
-	g_signal = 130;
-}
-
-
-void	handle_sig2(int sig)
-{
-	(void)sig;
-	write(1, "\n", 1);
-	rl_replace_line("", 0);
-	rl_on_new_line();
-}
-void	set_sig(void)
-{
-	signal(SIGINT, handle_sig);
-	signal(SIGQUIT, SIG_IGN);
-}
-
-void	set_sig_exec(void)
-{
-	signal(SIGINT, handle_sig2);
-	signal(SIGQUIT, SIG_IGN);
-}
-
-int	trat_input(t_envp *env, char *input)
+static int	trat_input(t_envp *env, char *input)
 {
 	if (g_signal == 130)
 	{
@@ -61,12 +30,21 @@ int	trat_input(t_envp *env, char *input)
 	return (0);
 }
 
+static void	trat_root(t_command *root, t_envp *env)
+{
+	int	resul;
+
+	set_sig_exec();
+	resul = my_pipe(root, env);
+	if (resul != 0)
+		env->last_stats = resul;
+}
+
 int	main(int ac, char **av, char **envp)
 {
 	char		*input;
 	t_envp		env;
 	t_command	*root;
-	int			resul;
 
 	(void)av;
 	if (ac != 1)
@@ -81,14 +59,10 @@ int	main(int ac, char **av, char **envp)
 			break ;
 		root = parsing(input, &env);
 		if (root)
-		{
-			set_sig_exec();
-			resul = my_pipe(root, &env);
-			if (resul != 0)
-				env.last_stats = resul;
-			free_commands(root);
-		}
+			trat_root(root, &env);
 		free(input);
 	}
-	return (free_env(env.envp), rl_clear_history(), 0);
+	free_env(env.envp);
+	rl_clear_history();
+	return (0);
 }

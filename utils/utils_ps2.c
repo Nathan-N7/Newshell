@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   utils_ps2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: natrodri <natrodri@student.42.fr>          +#+  +:+       +#+        */
+/*   By: natrodri <natrodri@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 10:43:57 by natrodri          #+#    #+#             */
-/*   Updated: 2025/05/08 12:31:46 by natrodri         ###   ########.fr       */
+/*   Updated: 2025/06/12 16:08:51 by natrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../libs/minishell.h"
 #include "../libs/structs.h"
 #include "../my_lib/libft.h"
+
 void	count_args_redirs(t_token *tok, int *arg_count, int *redir_count)
 {
 	*arg_count = 0;
@@ -104,4 +105,22 @@ void	free_commands(t_command *cmd)
 		free(cmd);
 		cmd = tmp;
 	}
+}
+
+void	free_command(t_command *cmd)
+{
+	int	i;
+
+	i = -1;
+	if (cmd->args)
+	{
+		while (cmd->args[++i])
+			free(cmd->args[i]);
+		free(cmd->args);
+	}
+	i = -1;
+	while (++i < cmd->redirect_count)
+		free(cmd->redirects[i].filename);
+	free(cmd->redirects);
+	free(cmd);
 }
