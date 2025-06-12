@@ -59,7 +59,7 @@ int	execute_builtin(t_envp *env, t_command *cmd)
 	if (ft_strcmp(cmd->args[0], "env") == 0)
 		return (ft_env(env));
 	else if (ft_strcmp(cmd->args[0], "pwd") == 0)
-		return (ft_pwd());
+		return (ft_pwd(env));
 	else if (ft_strcmp(cmd->args[0], "echo") == 0)
 		return (ft_echo(cmd->args));
 	else if (ft_strcmp(cmd->args[0], "cd") == 0)

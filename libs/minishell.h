@@ -51,7 +51,7 @@ char	    *expand_var(char *src, t_envp *env);
 int 	    my_pipe(t_command *cmd, t_envp *env);
 int         is_builtin(t_command *cmd);
 void	    error_pipe(char *join, t_op	op);
-int         ft_pwd();
+int         ft_pwd(t_envp *env);
 int         ft_env(t_envp *env);
 int         ft_echo(char **arg);
 int         get_index(char **envp, char *key);
