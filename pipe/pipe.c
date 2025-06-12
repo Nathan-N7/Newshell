@@ -52,11 +52,28 @@ int	last_pid(t_pid *pid_list)
 	return (pid_list->pid);		
 }
 
+int	heredoc_count(t_command *cmd)
+{
+	int	i;
+	int	count;
+
+	i = -1;
+	count = 0;
+	while (++i < cmd->redirect_count)
+	{
+		if (cmd->redirects[i].type == HEREDOC)
+			count++;
+	}
+	return (count);
+}
+
 int	process_heredoc(t_command *cmd, t_envp *env)
 {
 	t_redirect *r;
 	int			i;
+	int			hd_count;
 
+	hd_count = 0;
 	while (cmd)
 	{
 		i = -1;
@@ -65,10 +82,11 @@ int	process_heredoc(t_command *cmd, t_envp *env)
 			r = &cmd->redirects[i];
 			if (r->type == HEREDOC)
 			{
+				hd_count++;
 				if (handle_heredoc(r, env, cmd) < 0)
 					return (-1);
-				if (i + 1 != cmd->redirect_count)
-					close(r->fd);
+				if (hd_count != heredoc_count(cmd))
+				  	close(r->fd);
 				else if (env->last_stats == 130)
 					return (-2);
 			}
@@ -200,8 +218,8 @@ int	my_pipe(t_command *cmd, t_envp *env)
 		env->last_stats = 1;
 		return (env->last_stats);
 	}
-	// if (result == -2)
-	// 	env->last_stats = 130;
+	if (result == -2)
+		g_signal = 130;
 	while (cmd)
 	{
 		if (builtin_father(cmd) && !cmd->next)
