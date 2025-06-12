@@ -6,7 +6,7 @@
 /*   By: lbarreto <lbarreto@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 11:27:51 by natrodri          #+#    #+#             */
-/*   Updated: 2025/06/09 11:38:16 by lbarreto         ###   ########.fr       */
+/*   Updated: 2025/06/11 22:56:37 by lbarreto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ int	process_heredoc(t_command *cmd, t_envp *env)
 			{
 				if (handle_heredoc(r, env, cmd) < 0)
 					return (-1);
-				if (i + 1 != cmd->redirect_count)
+				if (i + 1 < cmd->redirect_count)
 					close(r->fd);
 				else if (env->last_stats == 130)
 					return (-2);
@@ -125,7 +125,6 @@ void	father(int *in_fd, int fd[2], t_command *cmd)
 		r = &cmd->redirects[i];
 		if (r->type == HEREDOC)
 		{
-			my_printf("heredoc fd: %d\n", r->fd);
 			close(r->fd);
 		}
 	}

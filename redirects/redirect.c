@@ -22,7 +22,7 @@ int handle_redirects(t_command *cmd, t_envp *env)
 		else if (r->type == HEREDOC)
 		{
 			dup2(r->fd, STDIN_FILENO);
-			close (r->fd);
+			close(r->fd);
 		}
 	}
 	if (error_flag == TRUE)
