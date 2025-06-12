@@ -32,6 +32,7 @@ void execute_redin(char *pathname, int *error_flag)
 	else
 	{
 		my_printf_fd("minishell: %s: No such file or directory\n", 2 ,pathname);
+		*error_flag = TRUE;
 		return;
 	}
 	dup2(fd, STDIN_FILENO);
