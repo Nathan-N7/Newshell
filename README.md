@@ -53,9 +53,6 @@ Compile o projeto com o `make`:
 
 make
 
-yaml
-Copy
-Edit
 
 Isso irá gerar o executável `./minishell`.
 
