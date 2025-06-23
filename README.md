@@ -1,6 +1,6 @@
 # 🐚 Minishell
 
-Este projeto foi desenvolvido como parte do currículo da 42 School. O objetivo é criar uma shell interativa que execute comandos, implemente funcionalidades básicas do Bash e trate entradas do usuário de forma robusta.
+Este projeto foi desenvolvido como parte do currículo da 42. O objetivo é criar uma shell interativa que execute comandos, implemente funcionalidades básicas do Bash e trate entradas do usuário de forma robusta.
 
 ---
 
@@ -95,7 +95,7 @@ Ou pressione `CTRL+D`.
 
 ---
 
-## 📌 Regras importantes (42 School)
+## 📌 Regras importantes (42)
 
 - Não é permitido usar:
   - `system()`
