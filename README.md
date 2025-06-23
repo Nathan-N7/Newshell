@@ -67,37 +67,32 @@ Após compilar, execute com:
 
 ./minishell
 
-css
-Copy
-Edit
+
 
 Digite comandos normalmente como em um terminal bash. Exemplos:
 
+
 echo Olá Mundo
 Olá Mundo
+
 
 export NOME=42
 echo $NOME
 42
 
+
 cat arquivo.txt | grep erro > erros.txt
+
 
 << EOF
 linha 1
 linha 2
 EOF
 
-perl
-Copy
-Edit
 
 Para sair do shell, use:
 
 exit
-
-yaml
-Copy
-Edit
 
 Ou pressione `CTRL+D`.
 
