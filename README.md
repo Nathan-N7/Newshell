@@ -62,34 +62,34 @@ Isso irá gerar o executável `./minishell`.
 
 Após compilar, execute com:
 
-./minishell
+`./minishell`
 
 
 
 Digite comandos normalmente como em um terminal bash. Exemplos:
 
 
-echo Olá Mundo
-Olá Mundo
+- `echo Olá Mundo`
+  - Olá Mundo
 
 
-export NOME=42
-echo $NOME
-42
+- `export NOME=42`
+- `echo $NOME`
+  - 42
 
 
-cat arquivo.txt | grep erro > erros.txt
+- `cat arquivo.txt | grep erro > erros.txt`
 
 
-<< EOF
-linha 1
-linha 2
-EOF
+`<< EOF`
+> linha 1
+> linha 2
+> EOF
 
 
 Para sair do shell, use:
 
-exit
+`exit`
 
 Ou pressione `CTRL+D`.
 
